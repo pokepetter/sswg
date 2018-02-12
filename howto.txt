@@ -1,0 +1,3 @@
+1. Create a folder with the name of your site title.
+2. Add images and text to the folder.
+3. Run the script to create a .html file.
