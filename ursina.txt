@@ -5,9 +5,9 @@
 <scale:3>
 
 <scale:1>
-# center
+#center
 # scale 3
-ursina game engine
+ursina engine
 ʕ •ᴥ•ʔゝ□
 
 # scale 1
