@@ -1,0 +1,68 @@
+# 1. Create a folder with the name of your site title.
+# 2. Add images and text to the folder.
+# 3. Run the script to create a .html file.
+# efe:ursina engine <br>ʕ •ᴥ•ʔゝ□
+<scale:3>
+
+<scale:1>
+# center
+# scale 3
+ursina game engine
+ʕ •ᴥ•ʔゝ□
+
+# scale 1
+------------
+test
+-----------
+
+# left
+
+
+title: ursina engine <br>ʕ •ᴥ•ʔゝ□
+text:
+--------------------------------------
+the best game engine
+--------------------------------------
+-------------------------------------------------------------------
+
+>>> pip install ursina
+# image: north
+# title: How to install:
+text:
+description text here
+description text here
+description text here
+
+code:
+<left>
+code if class:
+    if indented:
+        print('lol')
+# </left>
+
+description text here
+description text here
+description text here
+description text here
+description text here
+description text here
+
+
+
+description text here
+description text here
+description text here
+
+
+description text here
+description text here
+description text here
+
+
+description text here
+description text here
+description text here
+
+description text here
+description text here
+description text here
