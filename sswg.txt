@@ -1,0 +1,24 @@
+
+# center, bold, width 800
+# size 5
+Simple Static Website Generator
+
+# size 1.25, normal
+>>> pip install sswg
+>>> python -m sswg
+
+
+
+# width 500, left
+TAGS:
+
+    # size 1.25
+    # width 900
+    # left
+    # right
+    # center
+    # normal
+    # bold
+    # image imagename
+
+# stop

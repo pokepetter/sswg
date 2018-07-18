@@ -15,7 +15,7 @@ images = glob('*.jpg')
 
 css = ''
 css += '''<html style="
-    max-width: 800px;
+    max-width: 100%;
     margin: auto;
     color: #333333;
     font-size: 1vw;
@@ -37,6 +37,7 @@ new_text = ''
 current_alignment = 'left'
 current_scale = 5
 current_font_weight = 'normal'
+current_font_style = 'normal'
 inline_images = list()
 stop = False
 
@@ -55,8 +56,7 @@ for line in text.split('\n'):
             if tag in ('left', 'right', 'center'):
                 print('tag', tag)
                 if tag != current_alignment:
-                    new_text += '</' + current_alignment + '>'
-                    new_text += '<' + tag + '>'
+                    new_text += '<div align="' + tag + '">'
                     current_alignment = tag
 
             if tag.startswith('scale') or tag.startswith('size'):
@@ -70,6 +70,11 @@ for line in text.split('\n'):
                 if tag != current_font_weight:
                     new_text += '<div style="font-weight: ' + tag + '">'
                     current_font_weight = tag
+
+            # elif tag in ('normal', 'italic', 'oblique'):
+            #     if tag != current_font_style:
+            #         new_text += '<div style="font-style: ' + tag + '">'
+            #         current_font_style = tag
 
             if tag.startswith('image'):
                 image_name = tag[len(tag.split(' ')[0]):].strip()
