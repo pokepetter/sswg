@@ -22,6 +22,7 @@ css += '''<html style="
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     ">'''
 css += '\n<left>\n'
+css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
 
 
 
