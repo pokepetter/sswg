@@ -14,16 +14,16 @@ if len(sys.argv) > 1:
 images = glob('*.jpg')
 
 css = ''
-css = '<left>\n<body>'
-css += '<html style="max-width: 800px; margin: auto;">'
-css += '<font color="#333333" face=""Century Gothic", CenturyGothic, AppleGothic, sans-serif" size="10em">\n'
-#
-# #images
-# for img in images:
-#     print('img:', path.splitext(img)[0])
-#     html_string += '''<img src="''' + img + '''" width=75%> <br>\n'''
+css += '''<html style="
+    max-width: 800px;
+    margin: auto;
+    color: #333333;
+    font-size: 1vw;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    ">'''
+css += '\n<left>\n'
 
-# print(html_string)
+
 
 txt = glob('*.txt')[0]
 css += '<title>' + txt.split('.')[0] + '</title>\n\n'
@@ -32,36 +32,76 @@ with open(txt, 'r', encoding='utf-8') as t:
     text = t.read()
 
 
-text = text.replace('title:', '<h1 size="10em"><center> ', 1)
-text = text.replace('text:', '<font color="#222222" size="5em">')
-
-text = text.replace('\n', '<br>\n')
-text = text.replace('  ', '&nbsp;&nbsp;')
-
-# delete commented lines
+# parse tags and ignore commented lines
 new_text = ''
-tags = list()
+current_alignment = 'left'
+current_scale = 5
+current_font_weight = 'normal'
+inline_images = list()
+stop = False
 
 for line in text.split('\n'):
+    if stop:
+        break
+
     if line.startswith('#'):
-        print('parse tag')
-        tag = line[1:]
-        if tag[0] == ' ':
-            tag = tag[1:]
+        line = line[1:]
+        tags = [tag.strip() for tag in line.split(',')]
 
-        # tag = line.split(' ')[1]
-        # if tag.startswith('#'):
-        #     tag = tag[1:]
-        # else:
-        #     tag = line.split(' ')[1]
-        print('TAG:', tag)
+        for tag in tags:
+            if tag.startswith('width'):
+                new_text += '<div style="max-width: ' + tag.split(' ')[1] + 'px; margin: auto;">'
+
+            if tag in ('left', 'right', 'center'):
+                print('tag', tag)
+                if tag != current_alignment:
+                    new_text += '</' + current_alignment + '>'
+                    new_text += '<' + tag + '>'
+                    current_alignment = tag
+
+            if tag.startswith('scale') or tag.startswith('size'):
+                new_scale = tag.split(' ')[1]
+                print('tag', new_scale)
+                if tag != new_scale:
+                    new_text += '<div style="font-size: ' + str(float(new_scale)) + 'vw">'
+                    current_scale = new_scale
+
+            if tag in ('normal', 'bold', 'bolder', 'lighter'):
+                if tag != current_font_weight:
+                    new_text += '<div style="font-weight: ' + tag + '">'
+                    current_font_weight = tag
+
+            if tag.startswith('image'):
+                image_name = tag[len(tag.split(' ')[0]):].strip()
+                print('.............', image_name)
+                for ft in ('.jpg', '.png', '.gif'):
+                    full_name = image_name + ft
+                    if path.isfile(path.join(path.dirname(path.realpath(__file__)), full_name)):
+                        new_text += '''<img src="''' + full_name + '''"     width=100%> <br>\n'''
+                        inline_images.append(full_name)
+
+            if tag == 'stop':
+                stop = True
+                break
+
+            new_text += '\n'
+
     else:
-        new_text += line + '\n'
-
+        new_text += line + '<br>\n'
 text = new_text
+text = text.replace('  ', '&nbsp;&nbsp;')
+
+#images
+if not stop:
+    for img in images:
+        if img in inline_images:
+            continue
+        text += '''<img src="''' + img + '''" width=100%> <br>\n'''
+
+
 
 html_string = css + text
-# print(html_string)
+print(html_string)
 
 with open("index.html", "w", encoding='utf-8') as text_file:
     text_file.write(html_string)
