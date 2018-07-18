@@ -18,7 +18,7 @@ css += '''<html style="
     max-width: 100%;
     margin: auto;
     color: #333333;
-    font-size: 1vw;
+
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     ">'''
 css += '\n<left>\n'
@@ -64,7 +64,7 @@ for line in text.split('\n'):
                 new_scale = tag.split(' ')[1]
                 print('tag', new_scale)
                 if tag != new_scale:
-                    new_text += '<div style="font-size: ' + str(float(new_scale)) + 'vw">'
+                    new_text += '<div style="font-size: ' + str(float(new_scale)*20) + 'px">'
                     current_scale = new_scale
 
             if tag in ('normal', 'bold', 'bolder', 'lighter'):
