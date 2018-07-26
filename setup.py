@@ -8,4 +8,5 @@ setup(
     author_email='pokepetter@gmail.com',
     license='MIT',
     keywords='website generator',
+    scripts=['sswg']
     )
