@@ -14,8 +14,6 @@ css += '''<html style="
     ">'''
 css += '\n<left>\n'
 css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
-# css += '<pre>'
-
 
 if len(glob('*.txt')) == 0:
     print('no text file found')
@@ -72,7 +70,7 @@ for line in text.split('\n'):
                 new_text += '<div style="font-family: ' + tag.lower() + '">'
 
 
-            if tag.startswith('image'): 
+            if tag.startswith('image'):
                 image_name = tag[len(tag.split(' ')[0]):].strip()
                 print('.............', image_name)
                 for ft in ('.jpg', '.png', '.gif'):
