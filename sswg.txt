@@ -2,23 +2,53 @@
 # center, bold, width 900
 # size 5
 Simple Static Website Generator
-
 # size 1.25, normal
+
+
 >>> pip install sswg
 >>> python -m sswg
 
 
 
-# width 500, left
-TAGS:
+# width 800, left, size 1.5, bold
+Tags
+# size 1, normal
 
-    # size 1.25
-    # width 900
-    # left
-    # right
-    # center
-    # normal
-    # bold
-    # image imagename
+ # size 1.25
+ # width 900
+ # left, right, center
+ # normal, bold, bolder, lighter
+ # image imagename
+ # arial, times, helvetica, courier, verdana, tahoma, bookman, monospace
+
+
+# size 1.5, bold
+Example Website
+# size 1, normal
+
+'''
+ # center, bold, arial
+ # size 5
+
+ ursina engine
+ ʕ •ᴥ•ʔゝ□
+ # size 1.25, bold
+ --------------------------------------
+ # normal
+ pip install ursina
+ # bold
+ --------------------------------------
+
+
+
+ # left, width 900, size 2
+ Powered by Python
+ # normal, size 1
+
+ Lorem Ipsum sit dolor et amet.
+'''
+
+
+
 
 # stop

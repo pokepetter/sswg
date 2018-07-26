@@ -3,13 +3,6 @@ from os import path
 from glob import glob
 from pathlib import Path
 
-target_dir = sys.argv[0]
-if len(sys.argv) > 1:
-    target_dir = sys.argv[1]
-
-# for arg in sys.argv:
-#     print('arg:', arg)
-# print('TARGET DIR:', target_dir)
 
 images = glob('*.jpg')
 
@@ -18,13 +11,15 @@ css += '''<html style="
     max-width: 100%;
     margin: auto;
     color: #333333;
-
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     ">'''
 css += '\n<left>\n'
 css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+# css += '<pre>'
 
 
+if len(glob('*.txt')) == 0:
+    print('no text file found')
+    sys.exit('no text file found')
 
 txt = glob('*.txt')[0]
 css += '<title>' + txt.split('.')[0] + '</title>\n\n'
@@ -72,12 +67,12 @@ for line in text.split('\n'):
                     new_text += '<div style="font-weight: ' + tag + '">'
                     current_font_weight = tag
 
-            # elif tag in ('normal', 'italic', 'oblique'):
-            #     if tag != current_font_style:
-            #         new_text += '<div style="font-style: ' + tag + '">'
-            #         current_font_style = tag
+            if (tag.lower() in
+                ('arial', 'times', 'helvetica', 'courier', 'courier new', 'verdana', 'tahoma', 'bookman', 'monospace')):
+                new_text += '<div style="font-family: ' + tag.lower() + '">'
 
-            if tag.startswith('image'):
+
+            if tag.startswith('image'): 
                 image_name = tag[len(tag.split(' ')[0]):].strip()
                 print('.............', image_name)
                 for ft in ('.jpg', '.png', '.gif'):
@@ -103,6 +98,7 @@ if not stop:
         if img in inline_images:
             continue
         text += '''<img src="''' + img + '''" width=100%> <br>\n'''
+        text += '<br><br>'
 
 
 
@@ -111,3 +107,4 @@ print(html_string)
 
 with open("index.html", "w", encoding='utf-8') as text_file:
     text_file.write(html_string)
+    print("finished building html")
