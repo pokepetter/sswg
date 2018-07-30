@@ -1,4 +1,4 @@
-
+﻿
 # center, bold, width 900
 # size 5
 Simple Static Website Generator
@@ -8,6 +8,10 @@ Simple Static Website Generator
 >>> pip install sswg
 >>> python -m sswg
 
+
+
+# width 1600
+# image example_website
 
 
 # width 800, left, size 1.5, bold
