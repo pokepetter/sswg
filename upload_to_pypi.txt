@@ -1,0 +1,3 @@
+python setup.py sdist bdist_wheel
+twine upload dist/sswg-1.0.4.tar.gz
+twine upload sswg-1.0.4-py3-none-any.whl
