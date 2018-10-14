@@ -24,7 +24,8 @@ Tags
  # normal, bold, bolder, lighter
  # image imagename
  # arial, times, helvetica, courier, verdana, tahoma, bookman, monospace
-
+ # background colorname
+ # code
 
 # size 1.5, bold
 Example Website
