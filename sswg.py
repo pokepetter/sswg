@@ -2,6 +2,7 @@ import sys
 from os import path
 from glob import glob
 from pathlib import Path
+import textwrap
 
 
 images = glob('*.jpg')
@@ -20,7 +21,7 @@ if len(glob('*.txt')) == 0:
     sys.exit('no text file found')
 
 txt = glob('*.txt')[0]
-css += '<title>' + txt.split('.')[0] + '</title>\n\n'
+css += '<title>' + txt.split('.')[0] + '</title>\n<br>\n\n'
 
 with open(txt, 'r', encoding='utf-8') as t:
     text = t.read()
@@ -32,15 +33,17 @@ current_alignment = 'left'
 current_scale = 5
 current_font_weight = 'normal'
 current_font_style = 'normal'
+code_div_indent = 0
 inline_images = list()
 stop = False
 
-for line in text.split('\n'):
+lines = text.split('\n')
+for i, line in enumerate(lines):
     if stop:
         break
 
-    if line.startswith('#'):
-        line = line[1:]
+    if textwrap.dedent(line).startswith('#'):
+        line = textwrap.dedent(line)[1:]
         tags = [tag.strip() for tag in line.split(',')]
 
         for tag in tags:
@@ -79,6 +82,23 @@ for line in text.split('\n'):
                         new_text += '''<img src="''' + full_name + '''"     width=100%> <br>\n'''
                         inline_images.append(full_name)
 
+            if tag.startswith('background'):
+                new_text += '<div style="background-color:' + tag.split(' ')[1] + ';">'
+
+            if tag.startswith('code'):
+                new_text += textwrap.dedent('''<div style="
+                    background-color: whitesmoke;
+                    padding: 10px;
+                    margin: 0;
+                    margin-left: 60px;
+                    font-family: monospace;
+                    font-size: 20;
+                    font-weight: normal;
+                    white-space: pre;">''')
+
+                code_div_indent = (len(lines[i]) - len(lines[i].lstrip())) // 4
+                continue
+
             if tag == 'stop':
                 stop = True
                 break
@@ -86,9 +106,24 @@ for line in text.split('\n'):
             new_text += '\n'
 
     else:
-        new_text += line + '<br>\n'
+        if code_div_indent:
+            current_indent = (len(lines[i]) - len(lines[i].lstrip())) // 4
+
+            if (current_indent < code_div_indent and current_indent > 0
+            or textwrap.dedent(lines[i+1]).startswith('#') or len(lines[i+1] + lines[i+2] + lines[i+2]) == 0):
+                # print('end code block')
+                new_text += line[code_div_indent*4:]
+                new_text += '</div>\n'
+                code_div_indent = 0
+                continue
+
+            new_text += line[code_div_indent*4:] + '\n'
+            continue
+
+        new_text += line.replace('  ', '&nbsp;&nbsp;') + '<br>\n'
 text = new_text
-text = text.replace('  ', '&nbsp;&nbsp;')
+# text = text.replace('  ', '&nbsp;&nbsp;')
+
 
 #images
 if not stop:
