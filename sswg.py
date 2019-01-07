@@ -77,10 +77,9 @@ for i, line in enumerate(lines):
                 image_name = tag[len(tag.split(' ')[0]):].strip()
                 print('.............', image_name)
                 for ft in ('.jpg', '.png', '.gif'):
-                    full_name = image_name + ft
-                    if path.isfile(path.join(path.dirname(path.realpath(__file__)), full_name)):
-                        new_text += '''<img src="''' + full_name + '''"     width=100%> <br>\n'''
-                        inline_images.append(full_name)
+                    if image_name.endswith(ft):
+                        new_text += '''<img src="''' + image_name + '''"     width=100%> <br>\n'''
+                        inline_images.append(image_name)
 
             if tag.startswith('background'):
                 new_text += '<div style="background-color:' + tag.split(' ')[1] + ';">'
@@ -120,7 +119,11 @@ for i, line in enumerate(lines):
             new_text += line[code_div_indent*4:] + '\n'
             continue
 
-        new_text += line.replace('  ', '&nbsp;&nbsp;') + '<br>\n'
+        else:
+            indent = (len(lines[i]) - len(lines[i].lstrip())) // 4
+            new_text += f'<div style="margin-left:{indent}em; white-space: pre-wrap;">' + textwrap.dedent(line) + '\n</div>\n'
+            # new_text += line.replace('  ', '&nbsp;&nbsp;') + '<br>\n'
+
 text = new_text
 # text = text.replace('  ', '&nbsp;&nbsp;')
 
