@@ -8,11 +8,26 @@ import textwrap
 images = glob('*.jpg')
 
 css = ''
-css += '''<html style="
-    max-width: 100%;
-    margin: auto;
-    color: #333333;
-    ">'''
+css += '''
+<style>
+    html {
+        max-width: 100%;
+        margin: auto;
+        color: #333333;
+    }
+    a.button {
+        padding: 15px 32px;
+        background-color: #4CAF50;
+        border-radius: 8px;
+        border-width: 0px;
+        text-decoration: none;
+        color: white;
+        font-size: 25.0px;
+    }
+</style>
+'''
+
+css += '<html>'
 css += '\n<left>\n'
 css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
 
@@ -127,6 +142,25 @@ for i, line in enumerate(lines):
 text = new_text
 # text = text.replace('  ', '&nbsp;&nbsp;')
 
+# buttons
+def get_tags(string, start_tag, end_tag):
+    tags = list()
+
+    for s in string.split(start_tag)[1:]:
+        t = s.split(end_tag, 1)[0]
+        if ',' in t:
+            tags.append(t)
+            print('button:', s.split(end_tag, 1)[0])
+    return tags
+
+
+buttons = get_tags(text, '[', ']')
+for b in buttons:
+    text = text.replace(b, f'''<a href="{b.split(',')[1]}" class="button">{b.split(',')[0]}''')
+
+
+text = text.replace('[', '')
+text = text.replace(']', '</a>')
 
 #images
 if not stop:
@@ -139,7 +173,7 @@ if not stop:
 
 
 html_string = css + text
-print(html_string)
+# print(html_string)
 
 with open("index.html", "w", encoding='utf-8') as text_file:
     text_file.write(html_string)
