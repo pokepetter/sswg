@@ -5,7 +5,11 @@ from pathlib import Path
 import textwrap
 
 
-images = glob('*.jpg')
+if len(glob('*.txt')) == 0:
+    print('no text file found')
+    sys.exit('no text file found')
+
+txt = glob('*.txt')[0]
 
 css = ''
 css += '''
@@ -31,11 +35,7 @@ css += '<html>'
 css += '\n<left>\n'
 css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
 
-if len(glob('*.txt')) == 0:
-    print('no text file found')
-    sys.exit('no text file found')
 
-txt = glob('*.txt')[0]
 css += '<title>' + txt.split('.')[0] + '</title>\n<br>\n\n'
 
 with open(txt, 'r', encoding='utf-8') as t:
@@ -161,15 +161,6 @@ for b in buttons:
 
 text = text.replace('[', '')
 text = text.replace(']', '</a>')
-
-#images
-if not stop:
-    for img in images:
-        if img in inline_images:
-            continue
-        text += '''<img src="''' + img + '''" width=100%> <br>\n'''
-        text += '<br><br>'
-
 
 
 html_string = css + text
