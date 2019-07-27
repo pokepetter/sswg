@@ -1,0 +1,55 @@
+
+# left, bold, width 900
+# size 5
+Simple Static Website Generator
+# size 1.25, normal
+
+
+# left, code
+pip install git+https://github.com/pokepetter/sswg
+python -m sswg
+# text
+
+
+# left, size 2, bold
+Tags
+# size 1, normal
+
+ - # size 1.25
+ - # width 900
+ - # left, right, center
+ - # normal, bold, bolder, lighter
+ - # image imagename
+ - # arial, times, helvetica, courier, verdana, tahoma, bookman, monospace
+ - # background colorname
+ - # code
+ - # text
+
+
+# size 2, bold
+Example Website
+# size 1, normal
+
+# code
+|    # center, bold, arial, size 5
+|
+|    ursina engine
+|    ʕ •ᴥ•ʔゝ□
+|    # size 1.25, bold
+|    --------------------------------------
+|    # normal
+|    pip install ursina
+|    # bold
+|    --------------------------------------
+|
+|    # left, width 900, size 2
+|    Powered by Python
+|    # normal, size 1
+|
+|    Lorem Ipsum sit dolor et amet.
+# text
+
+
+ (\_/)
+ (>.<)
+(")_(")
