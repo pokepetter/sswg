@@ -53,6 +53,9 @@ for txt in path.glob('*.txt'):
             font-size: 25.0px;
             line-height: 2.5em;
         }
+        mark {
+            background: #ccff99;
+        }
     </style>
     '''
 
@@ -121,7 +124,7 @@ for txt in path.glob('*.txt'):
                     print('.............', image_name)
                     for ft in ('.jpg', '.png', '.gif'):
                         if image_name.endswith(ft):
-                            new_text += '<img src="' + image_name + '"     width=100%> <br>\n'
+                            new_text += '<img src="' + image_name + '"     max-width=100%> <br>\n'
                             inline_images.append(image_name)
 
                 elif tag.startswith('background'):
@@ -170,6 +173,11 @@ for txt in path.glob('*.txt'):
                     comment = line.split('#')[1]
                     comment = re.sub(re.compile('<.*?>'), '', comment)
                     line = line.split('#')[0] + '<font color="gray">#' + comment + '</font>'
+
+                if original_line.startswith('+'): # highlight line in code block
+                    line = '<mark>' + line[1:] + '</mark>'
+                elif original_line.startswith('-'): # highlight line in code block
+                    line = '<mark style="background:#ff9999;">' + line[1:] + '</mark>'
 
             else:
                 buttons = get_tags(line, '[', ']')
