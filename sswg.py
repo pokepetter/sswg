@@ -169,15 +169,16 @@ for txt in path.glob('*.txt'):
                 for q in quotes:
                     line = line.replace(q, '<font color="green">' + q + '</font>')
 
-                if '#' in line:
+                if original_line.endswith('# +'): # highlight line in code block
+                    line = '<mark> ' + line.replace('# +', '</mark>')
+                elif line.endswith('# -'): # highlight line in code block
+                    line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
+
+                elif '#' in line:
                     comment = line.split('#')[1]
                     comment = re.sub(re.compile('<.*?>'), '', comment)
                     line = line.split('#')[0] + '<font color="gray">#' + comment + '</font>'
 
-                if original_line.startswith('+'): # highlight line in code block
-                    line = '<mark>' + line[1:] + '</mark>'
-                elif original_line.startswith('-'): # highlight line in code block
-                    line = '<mark style="background:#ff9999;">' + line[1:] + '</mark>'
 
             else:
                 buttons = get_tags(line, '[', ']')
