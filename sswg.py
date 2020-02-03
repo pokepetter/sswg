@@ -2,7 +2,7 @@ import sys
 from os import path
 import re
 from pathlib import Path
-import textwrap
+from textwrap import dedent
 
 
 def get_html_tags(string, start_tag='>', end_tag='>'):
@@ -34,35 +34,19 @@ if len(list(path.glob('*.txt'))) == 0:
 
 for txt in path.glob('*.txt'):
     # print(txt.stem)
-    # continue
-    css = ''
-    css += '''
-    <style>
-        html {
-            max-width: 100%;
-            margin: auto;
-            color: #333333;
-        }
-        a.button {
-            padding: 15px 32px;
-            background-color: #4CAF50;
-            border-radius: 8px;
-            border-width: 0px;
-            text-decoration: none;
-            color: white;
-            font-size: 25.0px;
-            line-height: 2.5em;
-        }
-        mark {
-            background: #ccff99;
-        }
-    </style>
-    '''
-
-    css += '<html>'
-    css += '\n<left>\n'
-    css += '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
-
+    new_text = ''
+    new_text += dedent('''
+        <!--generated with sswg-->
+        <style>
+            html {max-width: 100%; margin: auto; color: #333333;}
+            a.button {padding: 15px 32px; background-color: #4CAF50; border-radius: 8px; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+            mark {background: #ccff99;}
+            img {max-width: 100%;}
+        </style>
+        <html>
+        <left>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ''')
 
     with open(txt, 'r', encoding='utf-8') as t:
         text = t.read()
@@ -71,16 +55,16 @@ for txt in path.glob('*.txt'):
     else:
         title = txt.stem
 
-    css += '<title>' + title + '</title>\n<br>\n\n'
+    new_text += '<title>' + title + '</title>\n<br>\n\n'
 
     # parse tags and ignore commented lines
-    new_text = ''
     current_alignment = 'left'
     current_scale = 5
     current_font_weight = 'normal'
     current_font_style = 'normal'
     is_code_block = False
     inline_images = list()
+
 
     lines = text.split('\n')
     for i, line in enumerate(lines):
@@ -94,7 +78,8 @@ for txt in path.glob('*.txt'):
             style = ''
             for tag in tags:
                 if tag.startswith('width'):
-                    style += 'max-width: ' + tag.split(' ')[1] + 'px; margin: auto;'
+                    tag = tag.split(' ')[1]
+                    style += f'max-width: {tag}px; margin: auto;'
 
                 elif tag in ('left', 'right', 'center'):
                     # print('tag', tag)
@@ -124,7 +109,7 @@ for txt in path.glob('*.txt'):
                     print('.............', image_name)
                     for ft in ('.jpg', '.png', '.gif'):
                         if image_name.endswith(ft):
-                            new_text += '<img src="' + image_name + '"     max-width=100%> <br>\n'
+                            new_text += f'<img src="{image_name}"></img> <br>\n'
                             inline_images.append(image_name)
 
                 elif tag.startswith('background'):
@@ -132,7 +117,7 @@ for txt in path.glob('*.txt'):
 
                 elif tag.startswith('code'):
                     is_code_block = True
-                    style += textwrap.dedent(f'''
+                    style += dedent(f'''
                         background-color: whitesmoke;
                         padding: 10px;
                         margin: 0;
@@ -194,13 +179,21 @@ for txt in path.glob('*.txt'):
 
                 line = line.replace('  ', '&nbsp;&nbsp;')
 
+
+            if 'http' in line and not 'class="button"' in line:  # find urls and convert them to links
+                words = line.split(' ')
+                words = [f'<a href="{w}">{w}</a>' if w.startswith('http') else w for w in words]
+                line = ' '.join(words)
+
+
             new_text += line + '<br>'
+            if not is_code_block:
+                new_text += '\n'
 
 
-    text = new_text
-    html_string = css + text
-    # print(html_string)
+    new_text += '\n</html>'
+
 
     with open(txt.stem + '.html', 'w', encoding='utf-8') as text_file:
-        text_file.write(html_string)
+        text_file.write(new_text)
         print('finished building:', txt.stem + '.html')

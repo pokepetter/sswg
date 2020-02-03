@@ -49,6 +49,8 @@ Example Website
 |    Lorem Ipsum sit dolor et amet.
 # text
 
+# image example_website.jpg
+
 
  (\_/)
  (>.<)
