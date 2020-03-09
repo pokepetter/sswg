@@ -34,22 +34,29 @@ if len(list(path.glob('*.txt'))) == 0:
 
 for txt in path.glob('*.txt'):
     # print(txt.stem)
+    with open(txt, 'r', encoding='utf-8') as t:
+        text = t.read()
+
     new_text = ''
     new_text += dedent('''
         <!--generated with sswg-->
         <style>
             html {max-width: 100%; margin: auto; color: #333333;}
-            a.button {padding: 15px 32px; background-color: #4CAF50; border-radius: 8px; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+            a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+            a.button:hover {background-color: #777}
             mark {background: #ccff99;}
             img {max-width: 100%;}
+    ''')
+    if text.startswith('# style'):
+        new_text += text.split('\n')[0].split('# style ')[1]
+
+    new_text += dedent('''
         </style>
         <html>
         <left>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     ''')
 
-    with open(txt, 'r', encoding='utf-8') as t:
-        text = t.read()
     if '# title' in text:
         title = text.split('# title')[1].split('\n',1)[0]
     else:
