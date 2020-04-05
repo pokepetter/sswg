@@ -72,8 +72,23 @@ for txt in path.glob('*.txt'):
     is_code_block = False
     inline_images = list()
 
-
     lines = text.split('\n')
+
+    # add support for markdown inspired tags
+    new_lines = list()
+    for l in lines:
+        if l.startswith('### '):
+            new_lines.extend(['# size 3', l[4:], '# size 1'])
+            continue
+
+        if l.startswith('## '):
+            new_lines.extend(['# size 2', l[3:], '# size 1'])
+            continue
+
+        new_lines.append(l)
+
+    lines = new_lines
+
     for i, line in enumerate(lines):
         # print(line)
         original_line = line
