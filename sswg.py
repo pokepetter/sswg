@@ -177,7 +177,7 @@ for txt in path.glob('*.txt'):
                     line = line.replace(q, '<font color="green">' + q + '</font>')
 
                 if original_line.endswith('# +'): # highlight line in code block
-                    line = '<mark> ' + line.replace('# +', '</mark>')
+                    line = '<mark>' + line.replace('# +', '</mark>')
                 elif line.endswith('# -'): # highlight line in code block
                     line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
 
