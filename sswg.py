@@ -191,6 +191,7 @@ for txt in path.glob('*.txt'):
 
             else:
                 buttons = get_tags(line, '[', ']')
+
                 for b in buttons:
                     if not ',' in b:
                         print(line)
@@ -202,16 +203,18 @@ for txt in path.glob('*.txt'):
 
                     if number_of_commas == 1:
                         name, link = b.split(',')
-                        line = f'''<a href="{link}" class="button">{name}</a>'''
+                        line = line.replace(f'[{b}]', f'''<a href="{link}" class="button">{name}</a>''')
+
                     elif number_of_commas == 2:
                         name, link, image = b.split(',')
                         is_image_button = True
                         image_code = ''
                         if len(image.strip()) > 0:
                             image_code = f'''style="background-image: url('{image.strip()}')"'''
-                        line = f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>'''
+                        # line += f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>'''
+                        line = line.replace(f'[{b}]', f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>''')
 
-
+                # line += '<br>'
                 line = line.replace('  ', '&nbsp;&nbsp;')
 
 
