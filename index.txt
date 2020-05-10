@@ -14,7 +14,7 @@ python -m sswg
 # left, size 2, bold
 Tags
 # size 1, normal
-
+# code
  - # size 1.25
  - # width 900
  - # left, right, center
@@ -22,11 +22,14 @@ Tags
  - # image imagename
  - # arial, times, helvetica, courier, verdana, tahoma, bookman, monospace
  - # background colorname
- - # code
- - # text
+ - # code (start code block)
+ - # text (end code block)
  - [Button Name, https://pokepetter.github.io/sswg/]
- - ##
- 
+ - [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
+ - ## (create header with size 2)
+ - ### (create header with size 3)
+
+# text
 
 
 # size 2, bold

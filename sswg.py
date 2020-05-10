@@ -44,7 +44,10 @@ for txt in path.glob('*.txt'):
             html {max-width: 100%; margin: auto; color: #333333;}
             a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
             a.button:hover {background-color: #777}
+            a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
+            a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
             mark {background: #ccff99;}
+            span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%;}
     ''')
     if text.startswith('# style'):
@@ -163,6 +166,7 @@ for txt in path.glob('*.txt'):
                 new_text += '<font color="gray">' + original_line.lstrip() + '</font>' + '\n'
 
         else:
+            is_image_button = False
             if is_code_block:
                 # purple olive green
                 line = line[indent:]
@@ -181,11 +185,9 @@ for txt in path.glob('*.txt'):
                 elif line.endswith('# -'): # highlight line in code block
                     line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
 
-                elif '#' in line:
-                    comment = line.split('#')[1]
-                    comment = re.sub(re.compile('<.*?>'), '', comment)
-                    line = line.split('#')[0] + '<font color="gray">#' + comment + '</font>'
-
+                elif ' #' in line:
+                    line = line.replace(' #', ' <font color="gray">#')
+                    line += '</font>'
 
             else:
                 buttons = get_tags(line, '[', ']')
@@ -195,20 +197,33 @@ for txt in path.glob('*.txt'):
                         continue
 
                     print('button:', b)
-                    line = line.replace(b, f'''<a href="{b.split(',')[1]}" class="button">{b.split(',')[0]}</a>''')
-                    line = line.replace('[', '')
-                    line = line.replace(']', '')
+                    number_of_commas = b.count(',')
+                    name, link, image = b, '', None
+
+                    if number_of_commas == 1:
+                        name, link = b.split(',')
+                        line = f'''<a href="{link}" class="button">{name}</a>'''
+                    elif number_of_commas == 2:
+                        name, link, image = b.split(',')
+                        is_image_button = True
+                        image_code = ''
+                        if len(image.strip()) > 0:
+                            image_code = f'''style="background-image: url('{image.strip()}')"'''
+                        line = f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>'''
+
 
                 line = line.replace('  ', '&nbsp;&nbsp;')
 
 
-            if 'http' in line and not 'class="button"' in line:  # find urls and convert them to links
+            if 'http' in line and not 'class="button' in line:  # find urls and convert them to links
                 words = line.split(' ')
                 words = [f'<a href="{w}">{w}</a>' if w.startswith('http') else w for w in words]
                 line = ' '.join(words)
 
 
-            new_text += line + '<br>'
+            new_text += line
+            if not is_image_button:
+                new_text += '<br>'
             if not is_code_block:
                 new_text += '\n'
 
