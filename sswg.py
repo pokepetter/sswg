@@ -48,7 +48,7 @@ for txt in path.glob('*.txt'):
             a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
             mark {background: #ccff99;}
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
-            img {max-width: 100%;}
+            img {max-width: 100%; vertical-align: top;}
     ''')
     if text.startswith('# style'):
         new_text += text.split('\n')[0].split('# style ')[1]
@@ -81,11 +81,11 @@ for txt in path.glob('*.txt'):
     new_lines = list()
     for l in lines:
         if l.startswith('### '):
-            new_lines.extend(['# size 3', l[4:], '# size 1'])
+            new_lines.extend(['# size 3', f'<div id="{l[4:]}"/>', l[4:], '# size 1'])
             continue
 
         if l.startswith('## '):
-            new_lines.extend(['# size 2', l[3:], '# size 1'])
+            new_lines.extend(['# size 2', f'<div id="{l[3:]}"/>', l[3:], '# size 1'])
             continue
 
         new_lines.append(l)

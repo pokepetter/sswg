@@ -10,7 +10,6 @@ pip install git+https://github.com/pokepetter/sswg
 python -m sswg
 # text
 
-
 # left, size 2, bold
 Tags
 # size 1, normal
@@ -26,15 +25,16 @@ Tags
  - # text (end code block)
  - [Button Name, https://pokepetter.github.io/sswg/]
  - [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
+ - [Button Name, header name]
  - ## (create header with size 2)
  - ### (create header with size 3)
 
 # text
 
 
-# size 2, bold
-Example Website
-# size 1, normal
+# bold
+## Example Website
+# normal
 
 # code
 |    # center, bold, arial, size 5
