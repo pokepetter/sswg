@@ -27,12 +27,26 @@ def get_tags(string, start_tag, end_tag, include_tags=False):
 
 # --------------------------------------------------------------------
 path = Path('.')
+ignore = '_*'
+for arg in sys.argv:
+    if arg.startswith('--ignore='):
+        ignore = arg.split('=')[1]
+
 
 if len(list(path.glob('*.txt'))) == 0:
     print('no text file found')
     sys.exit('no text file found')
 
 for txt in path.glob('*.txt'):
+    #  skip ignored files
+    if ignore.endswith('*'):
+        if txt.name.startswith(ignore[:-1]):
+            print('skip file:', txt)
+            continue
+    if txt.name == ignore:
+        print('skip file:', txt)
+        continue
+
     # print(txt.stem)
     with open(txt, 'r', encoding='utf-8') as t:
         text = t.read()
@@ -49,6 +63,7 @@ for txt in path.glob('*.txt'):
             mark {background: #ccff99;}
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
+            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
     ''')
     if text.startswith('# style'):
         new_text += text.split('\n')[0].split('# style ')[1]
@@ -81,11 +96,20 @@ for txt in path.glob('*.txt'):
     new_lines = list()
     for l in lines:
         if l.startswith('### '):
-            new_lines.extend(['# size 3', f'<div id="{l[4:]}"/>', l[4:], '# size 1'])
+            new_lines.extend(['# size 3, bold', f'<div id="{l[4:]}"/>', l[4:], '# size 1, normal'])
             continue
 
         if l.startswith('## '):
-            new_lines.extend(['# size 2', f'<div id="{l[3:]}"/>', l[3:], '# size 1'])
+            new_lines.extend(['# size 2, bold', f'<div id="{l[3:]}"/>', l[3:], '# size 1, normal'])
+            continue
+
+        elif l.startswith('# insert') or l.startswith('#insert'):
+            path = l.split('insert', 1)[1].strip()
+            if path.startswith('Path('):
+                path = eval(path)
+
+            with open(path, 'r', encoding='utf-8') as text_file:
+                new_lines.extend(text_file.readlines())
             continue
 
         new_lines.append(l)
@@ -100,6 +124,7 @@ for txt in path.glob('*.txt'):
             line = line.strip()[1:].strip()
             tags = [tag.strip() for tag in line.split(',')]
 
+            div_class = ''
             style = ''
             for tag in tags:
                 if tag.startswith('width'):
@@ -142,22 +167,19 @@ for txt in path.glob('*.txt'):
 
                 elif tag.startswith('code'):
                     is_code_block = True
-                    style += dedent(f'''
-                        background-color: whitesmoke;
-                        padding: 10px;
-                        margin: 0;
-                        margin-left: {indent//4}em;
-                        font-family: monospace;
-                        font-size: 20;
-                        font-weight: normal;
-                        white-space: pre;''').replace('\n', ' ')
+                    style += f'margin-left: {indent//4}em;'
+                    div_class = 'code_block'
 
                 elif tag.startswith('text'):  # end code block
                     new_text += '</div>'
                     is_code_block = False
 
+
             if style:
-                new_text += '<div style="' + style + '">'
+                if div_class:
+                    div_class = f'class="{div_class}" '
+
+                new_text += f'<div {div_class}style="{style}">'
 
                 if not is_code_block:
                     new_text += '\n'
@@ -197,7 +219,7 @@ for txt in path.glob('*.txt'):
                         print(line)
                         continue
 
-                    print('button:', b)
+                    # print('button:', b)
                     number_of_commas = b.count(',')
                     name, link, image = b, '', None
 

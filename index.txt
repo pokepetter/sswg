@@ -10,9 +10,14 @@ pip install git+https://github.com/pokepetter/sswg
 python -m sswg
 # text
 
-# left, size 2, bold
-Tags
-# size 1, normal
+
+A Markdown inspired markup language.
+Converts the text files in a folder into web pages.
+Use the tags below to style it.
+
+# left
+## Tags
+
 # code
  - # size 1.25
  - # width 900
@@ -23,18 +28,17 @@ Tags
  - # background colorname
  - # code (start code block)
  - # text (end code block)
+ - # insert some_file.txt
+ - ## (create header with size 2)
+ - ### (create header with size 3)
  - [Button Name, https://pokepetter.github.io/sswg/]
  - [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
  - [Button Name, header name]
- - ## (create header with size 2)
- - ### (create header with size 3)
 
 # text
 
 
-# bold
 ## Example Website
-# normal
 
 # code
 |    # center, bold, arial, size 5

@@ -9,6 +9,7 @@
     mark {background: #ccff99;}
     span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
     img {max-width: 100%; vertical-align: top;}
+    .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
 
 </style>
 <html>
@@ -24,20 +25,25 @@ Simple Static Website Generator<br>
 <div style="font-size: 25.0px;font-weight: normal;">
 <br>
 <br>
-<div style=" background-color: whitesmoke; padding: 10px; margin: 0; margin-left: 0em; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;">pip install git+https://github.com/pokepetter/sswg<br>python -m sswg<br></div><br>
+<div class="code_block" style="margin-left: 0em;">pip install git+https://github.com/pokepetter/sswg<br>python -m sswg<br></div><br>
+<br>
+A Markdown inspired markup language.<br>
+Converts the text files in a folder into web pages.<br>
+Use the tags below to style it.<br>
+<br>
 <div style="font-size: 40.0px;font-weight: bold;">
+<div id="Tags"/><br>
 Tags<br>
 <div style="font-size: 20.0px;font-weight: normal;">
-<div style=" background-color: whitesmoke; padding: 10px; margin: 0; margin-left: 0em; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;"> - <font color="gray"># size 1.25</font><br> - <font color="gray"># width 900</font><br> - <font color="gray"># left, right, center</font><br> - <font color="gray"># normal, bold, bolder, lighter</font><br> - <font color="gray"># image imagename</font><br> - <font color="gray"># arial, times, helvetica, courier, verdana, tahoma, bookman, monospace</font><br> - <font color="gray"># background colorname</font><br> - <font color="gray"># code (start code block)</font><br> - <font color="gray"># text (end code block)</font><br> - [Button Name, <a href="https://pokepetter.github.io/sswg/]">https://pokepetter.github.io/sswg/]</a><br> - [Button Name, <a href="https://pokepetter.github.io/sswg/,">https://pokepetter.github.io/sswg/,</a> image_name.jpg] (big button)<br> - [Button Name, header name]<br> - <font color="gray">## (create header with size 2)</font><br> - <font color="gray">### (create header with size 3)</font><br><br></div><br>
 <br>
-<div style="font-weight: bold;">
-<div style="font-size: 40.0px;">
+<div class="code_block" style="margin-left: 0em;"> - <font color="gray"># size 1.25</font><br> - <font color="gray"># width 900</font><br> - <font color="gray"># left, right, center</font><br> - <font color="gray"># normal, bold, bolder, lighter</font><br> - <font color="gray"># image imagename</font><br> - <font color="gray"># arial, times, helvetica, courier, verdana, tahoma, bookman, monospace</font><br> - <font color="gray"># background colorname</font><br> - <font color="gray"># code (start code block)</font><br> - <font color="gray"># text (end code block)</font><br> - <font color="gray"># insert some_file.txt</font><br> - <font color="gray">## (create header with size 2)</font><br> - <font color="gray">### (create header with size 3)</font><br> - [Button Name, <a href="https://pokepetter.github.io/sswg/]">https://pokepetter.github.io/sswg/]</a><br> - [Button Name, <a href="https://pokepetter.github.io/sswg/,">https://pokepetter.github.io/sswg/,</a> image_name.jpg] (big button)<br> - [Button Name, header name]<br><br></div><br>
+<br>
+<div style="font-size: 40.0px;font-weight: bold;">
 <div id="Example Website"/><br>
 Example Website<br>
-<div style="font-size: 20.0px;">
-<div style="font-weight: normal;">
+<div style="font-size: 20.0px;font-weight: normal;">
 <br>
-<div style=" background-color: whitesmoke; padding: 10px; margin: 0; margin-left: 0em; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;">|    <font color="gray"># center, bold, arial, size 5</font><br>|<br>|    ursina engine<br>|    ʕ •ᴥ•ʔゝ□<br>|    <font color="gray"># size 1.25, bold</font><br>|    --------------------------------------<br>|    <font color="gray"># normal</font><br>|    pip install ursina<br>|    <font color="gray"># bold</font><br>|    --------------------------------------<br>|<br>|    <font color="gray"># left, width 900, size 2</font><br>|    Powered by Python<br>|    <font color="gray"># normal, size 1</font><br>|<br>|    Lorem Ipsum sit dolor et amet.<br></div><br>
+<div class="code_block" style="margin-left: 0em;">|    <font color="gray"># center, bold, arial, size 5</font><br>|<br>|    ursina engine<br>|    ʕ •ᴥ•ʔゝ□<br>|    <font color="gray"># size 1.25, bold</font><br>|    --------------------------------------<br>|    <font color="gray"># normal</font><br>|    pip install ursina<br>|    <font color="gray"># bold</font><br>|    --------------------------------------<br>|<br>|    <font color="gray"># left, width 900, size 2</font><br>|    Powered by Python<br>|    <font color="gray"># normal, size 1</font><br>|<br>|    Lorem Ipsum sit dolor et amet.<br></div><br>
 <img src="example_website.jpg"></img> <br>
 <br>
 <br>
