@@ -119,8 +119,10 @@ for txt in path.glob('*.txt'):
     for i, line in enumerate(lines):
         # print(line)
         original_line = line
-        if line.strip().startswith('#'):
+        is_code_comment = is_code_block and not line.strip() in ('#text', '# text')
+        if line.strip().startswith('#') and not is_code_comment:
             indent = len(line) - len(line.lstrip())
+
             line = line.strip()[1:].strip()
             tags = [tag.strip() for tag in line.split(',')]
 
@@ -191,7 +193,7 @@ for txt in path.glob('*.txt'):
             is_image_button = False
             if is_code_block:
                 # purple olive green
-                line = line[indent:]
+                # line = line[indent:]
                 line = line.replace('def ', '<font color="purple">def</font> ')
                 line = line.replace('from ', '<font color="purple">from</font> ')
                 line = line.replace('import ', '<font color="purple">import</font> ')
@@ -236,7 +238,6 @@ for txt in path.glob('*.txt'):
                         # line += f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>'''
                         line = line.replace(f'[{b}]', f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>''')
 
-                # line += '<br>'
                 line = line.replace('  ', '&nbsp;&nbsp;')
 
 
@@ -247,10 +248,10 @@ for txt in path.glob('*.txt'):
 
 
             new_text += line
-            if not is_image_button:
+            if not is_image_button and not is_code_block:
                 new_text += '<br>'
-            if not is_code_block:
-                new_text += '\n'
+
+            new_text += '\n'
 
 
     new_text += '\n</html>'
