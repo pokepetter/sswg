@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='sswg',
-    version='2.2.1',
+    version='2.2.2',
     py_modules=['sswg'],
     url='https://github.com/pokepetter/sswg',
     author='Petter Amland',

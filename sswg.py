@@ -64,6 +64,13 @@ for txt in path.glob('*.txt'):
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
             .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
+
+            purple {color: hsl(289.0, 50%, 50%);}
+            gray {color: gray;}
+            olive {color: olive;}
+            yellow {color: darkgoldenrod;}
+            green {color: seagreen;}
+            blue {color: hsl(210, 50%, 50%);}
     ''')
     if text.startswith('# style'):
         new_text += text.split('\n')[0].split('# style ')[1]
@@ -187,31 +194,54 @@ for txt in path.glob('*.txt'):
                     new_text += '\n'
 
             elif is_code_block: # keep comments in code blocks
-                new_text += '<font color="gray">' + original_line.lstrip() + '</font>' + '\n'
+                new_text += '<gray>' + original_line.lstrip() + '</gray>' + '\n'
 
         else:
             is_image_button = False
             if is_code_block:
-                # purple olive green
-                # line = line[indent:]
-                line = line.replace('def ', '<font color="purple">def</font> ')
-                line = line.replace('from ', '<font color="purple">from</font> ')
-                line = line.replace('import ', '<font color="purple">import</font> ')
-                line = line.replace('Entity', '<font color="olive">Entity</font>')
+                line = line.replace('def ', '<purple>def</purple> ')
+                line = line.replace('from ', '<purple>from</purple> ')
+                line = line.replace('import ', '<purple>import</purple> ')
+                line = line.replace('for ', '<purple>for</purple> ')
+
+                line = line.replace('elif ', '<purple>elif</purple> ')
+                line = line.replace('if ', '<purple>if</purple> ')
+                line = line.replace(' not ', ' <purple>not</purple> ')
+                line = line.replace('else:', '<purple>else</purple>:')
+
+                line = line.replace('Entity', '<olive>Entity</olive>')
+                for e in ('print', 'range', 'hasattr', 'getattr', 'setattr'):
+                    line = line.replace(f'{e}(' , f'<blue>{e}</blue>(')
+
+                # colorize ursina specific params
+                for e in ('enabled', 'parent', 'world_parent', 'model', 'highlight_color', 'color',
+                    'texture_scale', 'texture', 'visible',
+                    'position', 'z', 'y', 'z',
+                    'rotation', 'rotation_x', 'rotation_y', 'rotation_z',
+                    'scale', 'scale_x', 'scale_y', 'scale_z',
+                    'origin', 'origin_x', 'origin_y', 'origin_z',
+                    'text', 'on_click', 'icon', 'collider', 'shader', 'curve', 'ignore',
+                    'vertices', 'triangles', 'uvs', 'normals', 'colors', 'mode', 'thickness'
+                    ):
+                    line = line.replace(f'{e}=' , f'<olive>{e}</olive>=')
+
+
+                # colorize numbers
+                for i in range(10):
+                    line = line.replace(f'{i}', f'<yellow>{i}</yellow>')
+
+                # destyle Vec2 and Vec3
+                line = line.replace(f'<yellow>3</yellow>(', '3(')
+                line = line.replace(f'<yellow>2</yellow>(', '2(')
 
                 quotes = re.findall('\'(.*?)\'', line)
                 quotes = ['\'' + q + '\'' for q in quotes]
                 for q in quotes:
-                    line = line.replace(q, '<font color="green">' + q + '</font>')
+                    line = line.replace(q, '<green>' + q + '</green>')
 
-                if original_line.endswith('# +'): # highlight line in code block
-                    line = '<mark>' + line.replace('# +', '</mark>')
-                elif line.endswith('# -'): # highlight line in code block
-                    line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
-
-                elif ' #' in line:
-                    line = line.replace(' #', ' <font color="gray">#')
-                    line += '</font>'
+                if ' #' in line:
+                    line = line.replace(' #', ' <gray>#')
+                    line += '</gray>'
 
             else:
                 buttons = get_tags(line, '[', ']')
