@@ -199,6 +199,9 @@ for txt in path.glob('*.txt'):
         else:
             is_image_button = False
             if is_code_block:
+                if line.startswith(indent*' '):
+                    line = line[indent:]
+
                 line = line.replace('def ', '<purple>def</purple> ')
                 line = line.replace('from ', '<purple>from</purple> ')
                 line = line.replace('import ', '<purple>import</purple> ')
@@ -239,8 +242,8 @@ for txt in path.glob('*.txt'):
                 for q in quotes:
                     line = line.replace(q, '<green>' + q + '</green>')
 
-                if ' #' in line:
-                    line = line.replace(' #', ' <gray>#')
+                if '#' in line:
+                    line = line.replace('#', '<gray>#')
                     line += '</gray>'
 
             else:
