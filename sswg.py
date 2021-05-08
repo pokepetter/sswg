@@ -51,36 +51,16 @@ for txt in path.glob('*.txt'):
     with open(txt, 'r', encoding='utf-8') as t:
         text = t.read()
 
-    new_text = ''
-    new_text += dedent('''
-        <!--generated with sswg-->
-        <style>
-            html {max-width: 100%; margin: auto; color: #333333;}
-            a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
-            a.button:hover {background-color: #777}
-            a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
-            a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
-            mark {background: #ccff99;}
-            span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
-            img {max-width: 100%; vertical-align: top;}
-            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
-
-            purple {color: hsl(289.0, 50%, 50%);}
-            gray {color: gray;}
-            olive {color: olive;}
-            yellow {color: darkgoldenrod;}
-            green {color: seagreen;}
-            blue {color: hsl(210, 50%, 50%);}
-    ''')
-    if text.startswith('# style'):
-        new_text += text.split('\n')[0].split('# style ')[1]
+    new_text = '<!--generated with sswg-->'
 
     new_text += dedent('''
-        </style>
         <html>
         <left>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <head> <link rel="stylesheet" href="sswg.css"> </head>
     ''')
+    if text.startswith('# style'):
+        new_text += '<style>' + text.split('\n')[0].split('# style ')[1] + '</style>'
 
     if '# title' in text:
         title = text.split('# title')[1].split('\n',1)[0]
@@ -242,6 +222,11 @@ for txt in path.glob('*.txt'):
                 for q in quotes:
                     line = line.replace(q, '<green>' + q + '</green>')
 
+                if line.endswith('# +'): # highlight line in code block
+                    line = '<mark>' + line.replace('# +', '</mark>')
+                elif line.endswith('# -'): # highlight line in code block
+                    line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
+
                 if '#' in line:
                     line = line.replace('#', '<gray>#')
                     line += '</gray>'
@@ -288,6 +273,27 @@ for txt in path.glob('*.txt'):
 
 
     new_text += '\n</html>'
+
+    with open('sswg.css', 'w', encoding='utf-8') as css_file:
+        css_file.write(dedent('''
+            html {max-width: 100%; margin: auto; color: #333333;}
+            a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+            a.button:hover {background-color: #777}
+            a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
+            a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
+            mark {background: #ccff99;}
+            span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
+            img {max-width: 100%; vertical-align: top;}
+            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
+
+            purple {color: hsl(289.0, 50%, 50%);}
+            gray {color: gray;}
+            olive {color: olive;}
+            yellow {color: darkgoldenrod;}
+            green {color: seagreen;}
+            blue {color: hsl(210, 50%, 50%);}
+            ''')
+        )
 
 
     with open(txt.stem + '.html', 'w', encoding='utf-8') as text_file:
