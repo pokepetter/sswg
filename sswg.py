@@ -51,7 +51,27 @@ for txt in path.glob('*.txt'):
     with open(txt, 'r', encoding='utf-8') as t:
         text = t.read()
 
-    new_text = '<!--generated with sswg-->'
+    if '# insert ' in text:
+        new_lines = []
+        lines = text.split('\n')
+        for l in lines:
+            if l.startswith('# insert') or l.startswith('#insert'):
+                path = l.split('insert', 1)[1].strip()
+                if path.startswith('Path('):
+                    path = eval(path)
+
+                with open(path, 'r', encoding='utf-8') as text_file:
+                    new_lines.extend(text_file.read().splitlines())
+                continue
+            new_lines.append(l)
+        text = '\n'.join(new_lines)
+
+
+    new_text = dedent('''
+        <!DOCTYPE HTML>
+        <!--generated with sswg-->
+    ''')
+
 
     new_text += dedent('''
         <html>
@@ -90,14 +110,16 @@ for txt in path.glob('*.txt'):
             new_lines.extend(['# size 2, bold', f'<div id="{l[3:]}"/>', l[3:], '# size 1, normal'])
             continue
 
-        elif l.startswith('# insert') or l.startswith('#insert'):
-            path = l.split('insert', 1)[1].strip()
-            if path.startswith('Path('):
-                path = eval(path)
-
-            with open(path, 'r', encoding='utf-8') as text_file:
-                new_lines.extend(text_file.readlines())
-            continue
+        #index support
+        if l.strip().startswith('# index ') or l.strip().startswith('#index '):
+            current_indent = l.split('#')[0]
+            # print('aaaaaaaaaaaa')
+            tag, target_document = l.split('#')[1].strip().split(' ')
+            with open(target_document, 'r', encoding='utf-8') as file:
+                headlines = [l.split('## ')[1].strip() for l in file.readlines() if l.strip().startswith('## ')] # get name after ##
+                for e in headlines:
+                    link = target_document.replace('.txt', '.html') + f'#{e}'
+                    new_lines.append(current_indent + f'• <a href="{link}">{e}</a>')
 
         new_lines.append(l)
 
@@ -236,7 +258,8 @@ for txt in path.glob('*.txt'):
 
                 for b in buttons:
                     if not ',' in b:
-                        print(line)
+                        # line = line.replace(f'[{b}]', f'''<a href="{b}"</a>''')
+                        # print(line)
                         continue
 
                     # print('button:', b)
