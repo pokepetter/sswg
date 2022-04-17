@@ -75,9 +75,9 @@ for txt in path.glob('*.txt'):
 
     new_text += dedent('''
         <html>
-        <left>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <head> <link rel="stylesheet" href="sswg.css"> </head>
+        <left>
     ''')
     if text.startswith('# style'):
         new_text += '<style>' + text.split('\n')[0].split('# style ')[1] + '</style>'
@@ -308,6 +308,8 @@ for txt in path.glob('*.txt'):
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
             .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
+            .sidebar {display: none;}
+            @media screen and (min-width: 1700px) {#sidebar {position:fixed; z-index:1; left:1em; top:1em;}}
 
             purple {color: hsl(289.0, 50%, 50%);}
             gray {color: gray;}
