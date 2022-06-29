@@ -203,7 +203,7 @@ for txt in path.glob('*.txt'):
             if is_code_block:
                 if line.startswith(indent*' '):
                     line = line[indent:]
-
+                line = line.replace('<', '&lt;').replace('>', '&gt;')   # make sure < and > are shown in code blocks
                 line = line.replace('def ', '<purple>def</purple> ')
                 line = line.replace('from ', '<purple>from</purple> ')
                 line = line.replace('import ', '<purple>import</purple> ')
