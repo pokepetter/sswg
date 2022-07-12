@@ -301,7 +301,7 @@ for txt in path.glob('*.txt'):
         css_file.write(dedent('''
             html {max-width: 100%; margin: auto; color: #333333;}
 
-            a {transition: color .2s; color: #19405c;}
+            a {transition: color .2s; color: #19405c; white-space: nowrap;}
             a:link, a:visited {color: #19405c;}
             a:hover {color: #7FDBFF;}
             a:active {transition: color .3s; color: #007BE6;}
