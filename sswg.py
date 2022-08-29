@@ -101,6 +101,8 @@ for txt in path.glob('*.txt'):
 
     # add support for markdown inspired tags
     new_lines = list()
+    is_code_block = False
+
     for l in lines:
         if l.startswith('### '):
             new_lines.extend(['# size 3, bold', f'<div id="{l[4:]}"/>', l[4:], '# size 1, normal'])
@@ -120,6 +122,13 @@ for txt in path.glob('*.txt'):
                 for e in headlines:
                     link = target_document.replace('.txt', '.html') + f'#{e}'
                     new_lines.append(current_indent + f'• <a href="{link}">{e}</a>')
+
+        if l.startswith('```'):
+            if not is_code_block:
+                l = '# code'
+            else:
+                l = '# text'
+            is_code_block = not is_code_block
 
         new_lines.append(l)
 
