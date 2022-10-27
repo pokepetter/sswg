@@ -77,6 +77,7 @@ for txt in path.glob('*.txt'):
         <html>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <head> <link rel="stylesheet" href="sswg.css"> </head>
+        <body>
         <left>
     ''')
     if text.startswith('# style'):
@@ -95,6 +96,7 @@ for txt in path.glob('*.txt'):
     current_font_weight = 'normal'
     current_font_style = 'normal'
     is_code_block = False
+    is_in_style_tag = False
     inline_images = list()
 
     lines = text.split('\n')
@@ -113,7 +115,7 @@ for txt in path.glob('*.txt'):
             continue
 
         #index support
-        if l.strip().startswith('# index ') or l.strip().startswith('#index '):
+        elif l.strip().startswith('# index ') or l.strip().startswith('#index '):
             current_indent = l.split('#')[0]
             # print('aaaaaaaaaaaa')
             tag, target_document = l.split('#')[1].strip().split(' ')
@@ -123,7 +125,7 @@ for txt in path.glob('*.txt'):
                     link = target_document.replace('.txt', '.html') + f'#{e}'
                     new_lines.append(current_indent + f'• <a href="{link}">{e}</a>')
 
-        if l.startswith('```'):
+        elif l.startswith('```'):
             if not is_code_block:
                 l = '# code'
             else:
@@ -131,6 +133,7 @@ for txt in path.glob('*.txt'):
             is_code_block = not is_code_block
 
         new_lines.append(l)
+
 
     lines = new_lines
 
@@ -296,15 +299,21 @@ for txt in path.glob('*.txt'):
                 words = [f'<a href="{w}">{w}</a>' if w.startswith('http') else w for w in words]
                 line = ' '.join(words)
 
+            if not is_code_block:
+                if line.startswith('<style>'):
+                    is_in_style_tag = True
+                if line.endswith('</style>'):
+                    is_in_style_tag = False
+
 
             new_text += line
-            if not is_image_button and not is_code_block:
+            if not is_image_button and not is_code_block and not is_in_style_tag:
                 new_text += '<br>'
 
             new_text += '\n'
 
 
-    new_text += '\n</html>'
+    new_text += '\n</body>\n</html>'
 
     with open('sswg.css', 'w', encoding='utf-8') as css_file:
         css_file.write(dedent('''
@@ -323,7 +332,11 @@ for txt in path.glob('*.txt'):
             mark {background: #ccff99;}
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
-            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre;}
+            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+            /* Hide scrollbar for Chrome, Safari and Opera */
+            .code_block::-webkit-scrollbar {
+              //display: none;
+            }
             .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
             @media screen and (max-width: 1800px) {.sidebar {display:none;}}
 
