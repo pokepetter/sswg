@@ -76,7 +76,10 @@ for txt in path.glob('*.txt'):
     new_text += dedent('''
         <html>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <head> <link rel="stylesheet" href="sswg.css"> </head>
+        <head>
+            <link rel="stylesheet" href="sswg.css">
+            <link rel="stylesheet" href="style.css">
+        </head>
         <body>
         <left>
     ''')
@@ -307,7 +310,7 @@ for txt in path.glob('*.txt'):
 
 
             new_text += line
-            if not is_image_button and not is_code_block and not is_in_style_tag:
+            if not is_image_button and not is_code_block and not is_in_style_tag and not line.endswith('style>'):
                 new_text += '<br>'
 
             new_text += '\n'

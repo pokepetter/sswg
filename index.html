@@ -4,7 +4,10 @@
 
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<head> <link rel="stylesheet" href="sswg.css"> </head>
+<head>
+    <link rel="stylesheet" href="sswg.css">
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 <left>
 <title>index</title>
@@ -12,15 +15,33 @@
 
 <div style="font-weight: bold;max-width: 900px; margin: auto;font-size: 100.0px;">
 Simple Static Website Generator<br>
-<br>
 <div style="font-size: 30.0px;font-weight: normal;">
-<div class="code_block" style="margin-left: 0em;">pip install git+https://github.com/pokepetter/sswg
-python -m sswg
-</div><br>
 <br>
 A Markdown inspired markup language.<br>
 Converts the text files in a folder into web pages.<br>
 Use the tags below to style it.<br>
+<br>
+<br>
+<div style="font-size: 40.0px;font-weight: bold;">
+<div id="Installation"/><br>
+Installation<br>
+<div style="font-size: 20.0px;font-weight: normal;">
+<br>
+1) Install Python<br>
+<br>
+2) Install sswg:<br>
+<br>
+<div class="code_block" style="margin-left: 0em;">pip install <a href="https://github.com/pokepetter/sswg/archive/refs/heads/master.zip">https://github.com/pokepetter/sswg/archive/refs/heads/master.zip</a>
+</div><br>
+<div style="font-size: 40.0px;font-weight: bold;">
+<div id="How to Run"/><br>
+How to Run<br>
+<div style="font-size: 20.0px;font-weight: normal;">
+<br>
+cd into the folder where your text files are and run:<br>
+<br>
+<div class="code_block" style="margin-left: 0em;">python -m sswg
+</div><br>
 <br>
 <div style="font-size: 40.0px;font-weight: bold;">
 <div id="Tags"/><br>
@@ -46,27 +67,39 @@ Tags<br>
  - <gray># insert other_file.txt</gray>
  - <gray># index other_file.text (creates links to all the headers(<gray>#<gray>#) in the file)</gray>
 </div><br>
+<br>
+<div style="font-size: 40.0px;font-weight: bold;">
+<div id="Style Override"/><br>
+Style Override<br>
+<div style="font-size: 20.0px;font-weight: normal;">
+<br>
+Create a style.css file and it will get loaded automatically.<br>
+This will style all the pages in the project.<br>
+<br>
+To style a specific page, you can include the style inside < style > tags at<br>
+the top of the document<br>
+<br>
 <div style="font-size: 40.0px;font-weight: bold;">
 <div id="Example Website"/><br>
 Example Website<br>
 <div style="font-size: 20.0px;font-weight: normal;">
 <br>
-<div class="code_block" style="margin-left: 0em;">|    <gray># center, bold, arial, size <yellow>5</yellow></gray>
-|
-|    ursina engine
-|    ʕ •ᴥ•ʔゝ□
-|    <gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow>, bold</gray>
-|    --------------------------------------
-|    <gray># normal</gray>
-|    pip install ursina
-|    <gray># bold</gray>
-|    --------------------------------------
-|
-|    <gray># left, width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow>, size <yellow>2</yellow></gray>
-|    Powered by Python
-|    <gray># normal, size <yellow>1</yellow></gray>
-|
-|    Lorem Ipsum sit dolor et amet.
+<div class="code_block" style="margin-left: 0em;"><gray># center, bold, arial, size <yellow>5</yellow></gray>
+
+ursina engine
+ʕ •ᴥ•ʔゝ□
+<gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow>, bold</gray>
+--------------------------------------
+<gray># normal</gray>
+pip install ursina
+<gray># bold</gray>
+--------------------------------------
+
+<gray># left, width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow>, size <yellow>2</yellow></gray>
+Powered by Python
+<gray># normal, size <yellow>1</yellow></gray>
+
+Lorem Ipsum sit dolor et amet.
 </div><br>
 <img src="example_website.jpg"></img> <br>
 <br>

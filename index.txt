@@ -1,16 +1,30 @@
 # left, bold, width 900, size 5
 Simple Static Website Generator
-
 # size 1.5, normal
-```
-pip install git+https://github.com/pokepetter/sswg
-python -m sswg
-```
-
 
 A Markdown inspired markup language.
 Converts the text files in a folder into web pages.
 Use the tags below to style it.
+
+
+## Installation
+
+1) Install Python
+
+2) Install sswg:
+
+```
+pip install https://github.com/pokepetter/sswg/archive/refs/heads/master.zip
+```
+
+## How to Run
+
+cd into the folder where your text files are and run:
+
+```
+python -m sswg
+```
+
 
 ## Tags
 
@@ -35,25 +49,34 @@ Use the tags below to style it.
  - # index other_file.text (creates links to all the headers(##) in the file)
 ```
 
+
+## Style Override
+
+Create a style.css file and it will get loaded automatically.
+This will style all the pages in the project.
+
+To style a specific page, you can include the style inside < style > tags at
+the top of the document
+
 ## Example Website
 
 ```
-|    # center, bold, arial, size 5
-|
-|    ursina engine
-|    ʕ •ᴥ•ʔゝ□
-|    # size 1.25, bold
-|    --------------------------------------
-|    # normal
-|    pip install ursina
-|    # bold
-|    --------------------------------------
-|
-|    # left, width 900, size 2
-|    Powered by Python
-|    # normal, size 1
-|
-|    Lorem Ipsum sit dolor et amet.
+# center, bold, arial, size 5
+
+ursina engine
+ʕ •ᴥ•ʔゝ□
+# size 1.25, bold
+--------------------------------------
+# normal
+pip install ursina
+# bold
+--------------------------------------
+
+# left, width 900, size 2
+Powered by Python
+# normal, size 1
+
+Lorem Ipsum sit dolor et amet.
 ```
 
 # image example_website.jpg
