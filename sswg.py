@@ -342,6 +342,9 @@ for txt in path.glob('*.txt'):
             }
             .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
             @media screen and (max-width: 1800px) {.sidebar {display:none;}}
+            @media (max-width: 725px) {
+                .button {display: block;}
+            }
 
             purple {color: hsl(289.0, 50%, 50%);}
             gray {color: gray;}
