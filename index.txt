@@ -82,6 +82,16 @@ Lorem Ipsum sit dolor et amet.
 # image example_website.jpg
 
 
+## Made with sswg
+
+https://www.ursinaengine.org/
+
+https://pokepetter.github.io/sswg/
+
+https://pokepetter.github.io/taptapir/website/sunsnake.html
+
+
+
  (\_/)
  (>.<)
 (")_(")
