@@ -135,6 +135,15 @@ for txt in path.glob('*.txt'):
                 l = '# text'
             is_code_block = not is_code_block
 
+        elif '`' in l and not '```' in l and l.count('`') % 2 == 0:
+            parts = l.split('`')
+
+            for i, p in enumerate(parts):
+                if i % 2 == 1:
+                    parts[i] = f'<span>{p}</span>'
+                    
+            l = ''.join(parts)
+
         new_lines.append(l)
 
 
@@ -295,6 +304,9 @@ for txt in path.glob('*.txt'):
                         line = line.replace(f'[{b}]', f'''<a href="{link}" class="button_big" {image_code}><span>{name}</span></a>''')
 
                 line = line.replace('  ', '&nbsp;&nbsp;')
+                if ('((') in line and '))' in line:
+                    line = line.replace('((', '<button>')
+                    line = line.replace('))', '</button>')
 
 
             if 'http' in line and not 'class="button' in line:  # find urls and convert them to links
