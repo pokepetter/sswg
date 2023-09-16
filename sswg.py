@@ -79,6 +79,7 @@ for txt in path.glob('*.txt'):
         <head>
             <link rel="stylesheet" href="sswg.css">
             <link rel="stylesheet" href="style.css">
+            <link rel="icon" type="image/x-icon" href="favicon.ico">
         </head>
         <body>
         <left>
@@ -114,7 +115,7 @@ for txt in path.glob('*.txt'):
             continue
 
         if l.startswith('## '):
-            new_lines.extend(['# size 2, bold', f'<div id="{l[3:]}"/>', l[3:], '# size 1, normal'])
+            new_lines.extend([f'<h2>' f'<div id="{l[3:]}"/>', l[3:], '</h2>'])
             continue
 
         #index support
@@ -333,6 +334,7 @@ for txt in path.glob('*.txt'):
     with open('sswg.css', 'w', encoding='utf-8') as css_file:
         css_file.write(dedent('''
             html {max-width: 100%; margin: auto; color: #333333;}
+            h2 {font-size: 50px; margin-block-end:0px; margin-block-start:0px;}
 
             a {transition: color .2s; color: #19405c; white-space: nowrap;}
             a:link, a:visited {color: #19405c;}
