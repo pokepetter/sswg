@@ -28,9 +28,14 @@ def get_tags(string, start_tag, end_tag, include_tags=False):
 # --------------------------------------------------------------------
 path = Path('.')
 ignore = '_*'
+language = 'en'
+
 for arg in sys.argv:
     if arg.startswith('--ignore='):
         ignore = arg.split('=')[1]
+
+    if arg.startswith('--language='):
+        language = arg.split('=')[1]
 
 
 if len(list(path.glob('*.txt'))) == 0:
@@ -66,33 +71,27 @@ for txt in path.glob('*.txt'):
             new_lines.append(l)
         text = '\n'.join(new_lines)
 
+    title = txt.stem
+    if '# title' in text:
+        title = text.split('# title')[1].split('\n',1)[0]
 
-    new_text = dedent('''
+    new_text = dedent(f'''
         <!DOCTYPE HTML>
         <!--generated with sswg-->
-    ''')
-
-
-    new_text += dedent('''
-        <html>
+        <html lang="{language}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <head>
+            <title>{title}</title>
             <link rel="stylesheet" href="sswg.css">
             <link rel="stylesheet" href="style.css">
             <link rel="icon" type="image/x-icon" href="favicon.ico">
         </head>
         <body>
         <left>
-    ''')
+    '''.strip())
+
     if text.startswith('# style'):
         new_text += '<style>' + text.split('\n')[0].split('# style ')[1] + '</style>'
-
-    if '# title' in text:
-        title = text.split('# title')[1].split('\n',1)[0]
-    else:
-        title = txt.stem
-
-    new_text += '<title>' + title + '</title>\n<br>\n\n'
 
     # parse tags and ignore commented lines
     current_alignment = 'left'
@@ -142,7 +141,7 @@ for txt in path.glob('*.txt'):
             for i, p in enumerate(parts):
                 if i % 2 == 1:
                     parts[i] = f'<span>{p}</span>'
-                    
+
             l = ''.join(parts)
 
         new_lines.append(l)
@@ -275,8 +274,7 @@ for txt in path.glob('*.txt'):
                     line = '<mark style="background:#ff9999;"> ' + line.replace('# -', '</mark>')
 
                 if '#' in line:
-                    line = line.replace('#', '<gray>#')
-                    line += '</gray>'
+                    line = line.replace('#', '<gray>#') + '</gray>'
 
             else:
                 buttons = get_tags(line, '[', ']')
@@ -352,7 +350,6 @@ for txt in path.glob('*.txt'):
             .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
             /* Hide scrollbar for Chrome, Safari and Opera */
             .code_block::-webkit-scrollbar {
-              //display: none;
             }
             .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
             @media screen and (max-width: 1800px) {.sidebar {display:none;}}
