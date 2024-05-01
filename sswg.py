@@ -101,6 +101,7 @@ for txt in path.glob('*.txt'):
     is_code_block = False
     is_in_style_tag = False
     inline_images = list()
+    code_block_id = 0
 
     lines = text.split('\n')
 
@@ -214,7 +215,12 @@ for txt in path.glob('*.txt'):
                 if div_class:
                     div_class = f'class="{div_class}" '
 
-                new_text += f'<div {div_class}style="{style}">'
+                div_id = f'id="code_block_{code_block_id}" ' if is_code_block else ''
+
+                new_text += f'<div {div_class}{div_id}style="{style}">'
+                if is_code_block:
+                    new_text += f'<button class="copy_code_button" onclick="copy_to_clipboard(code_block_{code_block_id})">copy</button>'
+                    code_block_id += 1
 
                 if not is_code_block:
                     new_text += '\n'
@@ -326,6 +332,18 @@ for txt in path.glob('*.txt'):
 
             new_text += '\n'
 
+    new_text += dedent('''\
+        <script>
+        function copy_to_clipboard(containerid) {
+            var range = document.createRange();
+            range.selectNode(containerid); //changed here
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        }
+        </script>
+        ''')
 
     new_text += '\n</body>\n</html>'
 
@@ -347,7 +365,8 @@ for txt in path.glob('*.txt'):
             mark {background: #ccff99;}
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
-            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; position: relative; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+            .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray}
             /* Hide scrollbar for Chrome, Safari and Opera */
             .code_block::-webkit-scrollbar {
             }

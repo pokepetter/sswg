@@ -26,7 +26,7 @@ Installation<br>
 <br>
 2) Install sswg:<br>
 <br>
-<div class="code_block" style="margin-left: 0em;">pip install <a href="https://github.com/pokepetter/sswg/archive/refs/heads/master.zip">https://github.com/pokepetter/sswg/archive/refs/heads/master.zip</a>
+<div class="code_block" id="code_block_0" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_0)">copy</button>pip install <a href="https://github.com/pokepetter/sswg/archive/refs/heads/master.zip">https://github.com/pokepetter/sswg/archive/refs/heads/master.zip</a>
 </div><br>
 <h2><div id="How to Run"/><br>
 How to Run<br>
@@ -34,14 +34,14 @@ How to Run<br>
 <br>
 cd into the folder where your text files are and run:<br>
 <br>
-<div class="code_block" style="margin-left: 0em;">python -m sswg
+<div class="code_block" id="code_block_1" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_1)">copy</button>python -m sswg
 </div><br>
 <br>
 <h2><div id="Tags"/><br>
 Tags<br>
 </h2><br>
 <br>
-<div class="code_block" style="margin-left: 0em;"> - <gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow></gray>
+<div class="code_block" id="code_block_2" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_2)">copy</button> - <gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow></gray>
  - <gray># width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow></gray>
  - <gray># left, right, center</gray>
  - <gray># normal, bold, bolder, lighter</gray>
@@ -75,7 +75,7 @@ the top of the document<br>
 Example Website<br>
 </h2><br>
 <br>
-<div class="code_block" style="margin-left: 0em;"><gray># center, bold, arial, size <yellow>5</yellow></gray>
+<div class="code_block" id="code_block_3" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_3)">copy</button><gray># center, bold, arial, size <yellow>5</yellow></gray>
 
 ursina engine
 ʕ •ᴥ•ʔゝ□
@@ -111,6 +111,16 @@ Made with sswg<br>
  (>.<)<br>
 (")_(")<br>
 <br>
+<script>
+function copy_to_clipboard(containerid) {
+    var range = document.createRange();
+    range.selectNode(containerid); //changed here
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+}
+</script>
 
 </body>
 </html>
