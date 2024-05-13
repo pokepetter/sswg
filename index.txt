@@ -1,4 +1,4 @@
-# left, bold, width 900, size 5
+# left, bold, width 1000, size 5
 Simple Static Website Generator
 # size 1.5, normal
 

@@ -335,12 +335,12 @@ for txt in path.glob('*.txt'):
     new_text += dedent('''\
         <script>
         function copy_to_clipboard(containerid) {
-            var range = document.createRange();
-            range.selectNode(containerid); //changed here
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
+            var range = document.createRange()
+            range.selectNode(containerid)
+            window.getSelection().removeAllRanges()
+            window.getSelection().addRange(range)
+            document.execCommand("copy")
+            window.getSelection().removeAllRanges()
         }
         </script>
         ''')
@@ -366,7 +366,7 @@ for txt in path.glob('*.txt'):
             span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
             img {max-width: 100%; vertical-align: top;}
             .code_block {background-color: whitesmoke; padding: 10px; margin: 0; position: relative; font-family: monospace; font-size: 20; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
-            .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray}
+            .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none;}
             /* Hide scrollbar for Chrome, Safari and Opera */
             .code_block::-webkit-scrollbar {
             }

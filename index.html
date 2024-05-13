@@ -9,7 +9,7 @@
             <link rel="icon" type="image/x-icon" href="favicon.ico">
         </head>
         <body>
-        <left><div style="font-weight: bold;max-width: 900px; margin: auto;font-size: 100.0px;">
+        <left><div style="font-weight: bold;max-width: 1000px; margin: auto;font-size: 100.0px;">
 Simple Static Website Generator<br>
 <div style="font-size: 30.0px;font-weight: normal;">
 <br>
@@ -113,12 +113,12 @@ Made with sswg<br>
 <br>
 <script>
 function copy_to_clipboard(containerid) {
-    var range = document.createRange();
-    range.selectNode(containerid); //changed here
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
+    var range = document.createRange()
+    range.selectNode(containerid)
+    window.getSelection().removeAllRanges()
+    window.getSelection().addRange(range)
+    document.execCommand("copy")
+    window.getSelection().removeAllRanges()
 }
 </script>
 
