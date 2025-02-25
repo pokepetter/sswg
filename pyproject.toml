@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sswg"
+version = "3.0.0"
+description = "A Simple Static Website Generator that converts a markdown inspired markup language into web pages."
+authors = [
+    {name = "Petter Amland", email = "pokepetter@gmail.com"}
+]
+license = {text = "MIT"}
+keywords = ["website", "generator"]
+readme = "README.md"
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "https://github.com/pokepetter/sswg"

@@ -25,35 +25,95 @@ def get_tags(string, start_tag, end_tag, include_tags=False):
     return tags
 
 
-# --------------------------------------------------------------------
+# default values
 path = Path('.')
+file_types = '.sswg'
 ignore = '_*'
-language = 'en'
+language_tag = 'en'
+output_folder = '.'
+
+if '--help' in sys.argv:
+    print(f'sswg.py --file_types={file_types} --ignore={ignore} --output_folder={output_folder} --language={language_tag}')
+    # print(dedent('''\
+    #     example settings:
+    #         --file_types=.sswg,.txt (make it accept both .sswg and .txt files)
+    #         --ignore=_* (ignore files starting with "_")
+    #         --language_tag=es (changes html lang tag to "es")'''
+    #     ))
 
 for arg in sys.argv:
     if arg.startswith('--ignore='):
         ignore = arg.split('=')[1]
 
-    if arg.startswith('--language='):
-        language = arg.split('=')[1]
+    if arg.startswith('--language_tag='):
+        language_tag = arg.split('=')[1]
+
+    if arg.startswith('--output_folder='):
+        output_folder = arg.split('=')[1].strip('"').strip('\'')
+
+# find files to parse
+files = []
+for suffix in file_types.split(','):
+    files.extend(list(path.glob('*' + suffix)))
+
+files_to_ignore = []
+for ignore_pattern in ignore.split(','):
+    files_to_ignore.extend(list(path.glob(ignore_pattern)))
+
+files = [f for f in files if f.name not in files_to_ignore]
 
 
-if len(list(path.glob('*.txt'))) == 0:
-    print('no text file found')
-    sys.exit('no text file found')
+if not files:
+    print('sswg: No source file found with extentions:', file_types)
+    sys.exit()
 
-for txt in path.glob('*.txt'):
-    #  skip ignored files
-    if ignore.endswith('*'):
-        if txt.name.startswith(ignore[:-1]):
-            print('skip file:', txt)
-            continue
-    if txt.name == ignore:
-        print('skip file:', txt)
-        continue
+output_folder_path = Path(output_folder)
+if not output_folder_path.exists():
+    output_folder_path.mkdir()
 
+# create css file
+with open('sswg.css', 'w', encoding='utf-8') as css_file:
+    css_file.write(dedent('''
+        html {max-width: 100%; margin: auto; color: #333333;}
+        h2 {font-size: 50px; margin-block-end:0px; margin-block-start:0px;}
+
+        a {transition: color .2s; color: #19405c; white-space: nowrap;}
+        a:link, a:visited {color: #19405c;}
+        a:hover {color: #7FDBFF;}
+        a:active {transition: color .3s; color: #007BE6;}
+        .link {text-decoration: none;}
+
+        a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+        a.button:hover {background-color: #777}
+        a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
+        a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
+        mark {background: #ccff99;}
+        span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
+        img {max-width: 100%; vertical-align: top;}
+        .code_block {background-color: whitesmoke; padding: 10px; margin: 0; position: relative; font-family: monospace; font-size: 20px; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+        .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none; -webkit-user-select:none;}
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .code_block::-webkit-scrollbar {
+        }
+        .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
+        @media screen and (max-width: 1800px) {.sidebar {display:none;}}
+        @media (max-width: 725px) {
+            .button {display: block;}
+        }
+
+        purple {color: hsl(289.0, 50%, 50%);}
+        gray {color: gray;}
+        olive {color: olive;}
+        yellow {color: darkgoldenrod;}
+        green {color: seagreen;}
+        blue {color: hsl(210, 50%, 50%);}
+        ''')
+    )
+
+# convert files to html
+for target_file in files:
     # print(txt.stem)
-    with open(txt, 'r', encoding='utf-8') as t:
+    with open(target_file, 'r', encoding='utf-8') as t:
         text = t.read()
 
     if '# insert ' in text:
@@ -71,14 +131,14 @@ for txt in path.glob('*.txt'):
             new_lines.append(l)
         text = '\n'.join(new_lines)
 
-    title = txt.stem
+    title = target_file.stem
     if '# title' in text:
         title = text.split('# title')[1].split('\n',1)[0]
 
     new_text = dedent(f'''
         <!DOCTYPE HTML>
         <!--generated with sswg-->
-        <html lang="{language}">
+        <html lang="{language_tag}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <head>
             <title>{title}</title>
@@ -192,7 +252,7 @@ for txt in path.glob('*.txt'):
 
                 elif tag.startswith('image'):
                     image_name = tag[len(tag.split(' ')[0]):].strip()
-                    print('.............', image_name)
+                    print('adding image:', image_name)
                     for ft in ('.jpg', '.png', '.gif'):
                         if image_name.endswith(ft):
                             new_text += f'<img src="{image_name}"></img> <br>\n'
@@ -347,45 +407,6 @@ for txt in path.glob('*.txt'):
 
     new_text += '\n</body>\n</html>'
 
-    with open('sswg.css', 'w', encoding='utf-8') as css_file:
-        css_file.write(dedent('''
-            html {max-width: 100%; margin: auto; color: #333333;}
-            h2 {font-size: 50px; margin-block-end:0px; margin-block-start:0px;}
-
-            a {transition: color .2s; color: #19405c; white-space: nowrap;}
-            a:link, a:visited {color: #19405c;}
-            a:hover {color: #7FDBFF;}
-            a:active {transition: color .3s; color: #007BE6;}
-            .link {text-decoration: none;}
-
-            a.button {padding: 15px 32px; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
-            a.button:hover {background-color: #777}
-            a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
-            a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
-            mark {background: #ccff99;}
-            span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
-            img {max-width: 100%; vertical-align: top;}
-            .code_block {background-color: whitesmoke; padding: 10px; margin: 0; position: relative; font-family: monospace; font-size: 20px; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
-            .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none;}
-            /* Hide scrollbar for Chrome, Safari and Opera */
-            .code_block::-webkit-scrollbar {
-            }
-            .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
-            @media screen and (max-width: 1800px) {.sidebar {display:none;}}
-            @media (max-width: 725px) {
-                .button {display: block;}
-            }
-
-            purple {color: hsl(289.0, 50%, 50%);}
-            gray {color: gray;}
-            olive {color: olive;}
-            yellow {color: darkgoldenrod;}
-            green {color: seagreen;}
-            blue {color: hsl(210, 50%, 50%);}
-            ''')
-        )
-
-
-    with open(txt.stem + '.html', 'w', encoding='utf-8') as text_file:
+    with open(output_folder_path / f'{target_file.stem}.html', 'w', encoding='utf-8') as text_file:
         text_file.write(new_text)
-        print('finished building:', txt.stem + '.html')
+        print('finished building:', target_file.stem + '.html')
