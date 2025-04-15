@@ -1,110 +1,87 @@
 <!DOCTYPE HTML>
-        <!--generated with sswg-->
-        <html lang="en">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <head>
-            <title>index</title>
-            <link rel="stylesheet" href="sswg.css">
-            <link rel="stylesheet" href="style.css">
-            <link rel="icon" type="image/x-icon" href="favicon.ico">
-        </head>
-        <body>
-        <left><div style="font-weight: bold;max-width: 1000px; margin: auto;font-size: 100.0px;">
-Simple Static Website Generator<br>
-<div style="font-size: 30.0px;font-weight: normal;">
-<br>
-A Markdown inspired markup language.<br>
+<!--generated with sswg-->
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <title>index</title>
+    <link rel="stylesheet" href="sswg.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<div style="max-width:1200px; margin:auto;">
+<div style="text-align:left;">
+</div>
+<div style="max-width:1000px; margin:auto;">
+<h1 id="Simple Static Website Generator">
+Simple Static Website Generator
+</h1>A Markdown inspired markup language.<br>
 Converts the text files in a folder into web pages.<br>
 Use the tags below to style it.<br>
 <br>
 <br>
-<h2><div id="Installation"/><br>
-Installation<br>
-</h2><br>
-<br>
-1) Install Python<br>
+<h2 id="Installation">
+Installation
+</h2>1) Install Python<br>
 <br>
 2) Install sswg:<br>
+<code_block id="code_block_0" style="margin:auto;">pip install https://github.com/pokepetter/sswg/archive/refs/heads/master.zip
+</code_block>
 <br>
-<div class="code_block" id="code_block_0" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_0)">copy</button>pip install <a href="https://github.com/pokepetter/sswg/archive/refs/heads/master.zip">https://github.com/pokepetter/sswg/archive/refs/heads/master.zip</a>
-</div><br>
-<h2><div id="How to Run"/><br>
-How to Run<br>
-</h2><br>
+<h2 id="How to Run">
+How to Run
+</h2>cd into the folder where your text files are and run:<br>
 <br>
-cd into the folder where your text files are and run:<br>
+<code_block id="code_block_1" style="margin:auto;">python -m sswg
+</code_block>
 <br>
-<div class="code_block" id="code_block_1" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_1)">copy</button>python -m sswg
-</div><br>
 <br>
-<h2><div id="Tags"/><br>
-Tags<br>
-</h2><br>
-<br>
-<div class="code_block" id="code_block_2" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_2)">copy</button> - <gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow></gray>
- - <gray># width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow></gray>
- - <gray># left, right, center</gray>
- - <gray># normal, bold, bolder, lighter</gray>
- - <gray># image imagename</gray>
- - <gray># arial, times, helvetica, courier, verdana, tahoma, bookman, monospace</gray>
- - <gray># background colorname</gray>
- - <gray># code (start code block)</gray>
- - <gray># text (end code block)</gray>
- - <gray># insert some_file.txt</gray>
- - <gray>#<gray># (create header with size <yellow>2</yellow>)</gray>
- - <gray>#<gray>#<gray># (create header with size <yellow>3</yellow>)</gray>
- - <gray>#<gray>#<gray>#<gray># (create header with size <yellow>6</yellow>)</gray>
- - [Button Name, <a href="https://pokepetter.github.io/sswg/]">https://pokepetter.github.io/sswg/]</a>
- - [Button Name, <a href="https://pokepetter.github.io/sswg/,">https://pokepetter.github.io/sswg/,</a> image_name.jpg] (big button)
+<h2 id="Tags">
+Tags
+</h2><code_block id="code_block_2" style="margin:auto;"> - # size 1.25
+ - # width 900
+ - # left, right, center
+ - # normal, bold, bolder, lighter
+ - # image imagename
+
+ - #code (start code block)
+ - #text (end code block)
+ - #insert some_file.txt
+ - ## (create header with size 2)
+ - ### (create header with size 3)
+ - #### (create header with size 6)
+ - [Button Name, https://pokepetter.github.io/sswg/]
+ - [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
  - [Button Name, header name]
- - <gray># insert other_file.txt</gray>
- - <gray># index other_file.text (creates links to all the headers(<gray>#<gray>#) in the file)</gray>
-</div><br>
+ - #insert other_file.txt
+ - #index other_file.text (creates links to all the headers(##) in the file)
+</code_block>
 <br>
-<h2><div id="Style Override"/><br>
-Style Override<br>
-</h2><br>
 <br>
-Create a style.css file and it will get loaded automatically.<br>
+<h2 id="Style Override">
+Style Override
+</h2>Create a style.css file and it will get loaded automatically.<br>
 This will style all the pages in the project.<br>
 <br>
 To style a specific page, you can include the style inside < style > tags at<br>
 the top of the document<br>
 <br>
-<h2><div id="Example Website"/><br>
-Example Website<br>
-</h2><br>
-<br>
-<div class="code_block" id="code_block_3" style="margin-left: 0em;"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_3)">copy</button><gray># center, bold, arial, size <yellow>5</yellow></gray>
+<h2 id="Example Website">
+Example Website
+</h2><code_block id="code_block_3" style="margin:auto;">### ursina engine ʕ •ᴥ•ʔゝ□
+`pip install ursina`
 
-ursina engine
-ʕ •ᴥ•ʔゝ□
-<gray># size <yellow>1</yellow>.<yellow>2</yellow><yellow>5</yellow>, bold</gray>
---------------------------------------
-<gray># normal</gray>
-pip install ursina
-<gray># bold</gray>
---------------------------------------
-
-<gray># left, width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow>, size <yellow>2</yellow></gray>
-Powered by Python
-<gray># normal, size <yellow>1</yellow></gray>
-
+## Powered by Python
 Lorem Ipsum sit dolor et amet.
-</div><br>
+</code_block>
+<br>
 <img src="example_website.jpg"></img> <br>
 <br>
-<br>
-<h2><div id="Made with sswg"/><br>
-Made with sswg<br>
-</h2><br>
-<br>
-<a href="https://www.ursinaengine.org/">https://www.ursinaengine.org/</a><br>
-<br>
+<h2 id="Made with sswg">
+Made with sswg
+</h2><a href="https://www.ursinaengine.org/">https://www.ursinaengine.org/</a><br>
 <a href="https://pokepetter.github.io/sswg/">https://pokepetter.github.io/sswg/</a><br>
-<br>
 <a href="https://pokepetter.github.io/taptapir/website/sunsnake.html">https://pokepetter.github.io/taptapir/website/sunsnake.html</a><br>
-<br>
 <br>
 <br>
  (\_/)<br>
