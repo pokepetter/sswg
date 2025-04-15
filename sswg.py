@@ -3,6 +3,7 @@ from os import path
 import re
 from pathlib import Path
 from textwrap import dedent
+import shutil
 
 
 def get_html_tags(string, start_tag='>', end_tag='>'):
@@ -53,7 +54,13 @@ for arg in sys.argv:
 
 # find files to parse
 files = []
-for suffix in file_types.split(','):
+if ',' in file_types:
+    file_types = file_types.split(',')
+else:
+    file_types = (file_types, )
+# print('file_types:', file_types)
+
+for suffix in file_types:
     files.extend(list(path.glob('*' + suffix)))
 
 files_to_ignore = []
@@ -72,7 +79,7 @@ if not output_folder_path.exists():
     output_folder_path.mkdir()
 
 # create css file
-with open('sswg.css', 'w', encoding='utf-8') as css_file:
+with (output_folder_path/'sswg.css').open('w', encoding='utf-8') as css_file:
     css_file.write(dedent('''
         html {max-width: 100%; margin: auto; color: #333333;}
         h2 {font-size: 50px; margin-block-end:0px; margin-block-start:0px;}
@@ -160,7 +167,7 @@ for target_file in files:
     current_font_style = 'normal'
     is_code_block = False
     is_in_style_tag = False
-    inline_images = list()
+    inline_images = []
     code_block_id = 0
 
     lines = text.split('\n')
@@ -186,7 +193,10 @@ for target_file in files:
             with open(target_document, 'r', encoding='utf-8') as file:
                 headlines = [l.split('## ')[1].strip() for l in file.readlines() if l.strip().startswith('## ')] # get name after ##
                 for e in headlines:
-                    link = target_document.replace('.txt', '.html') + f'#{e}'
+                    link = target_document
+                    for suffix in file_types:
+                        link = link.replace(suffix, '.html')
+                    link = f'{link}#{e}'
                     new_lines.append(current_indent + f'• <a href="{link}">{e}</a>')
 
         elif l.startswith('```'):
@@ -410,3 +420,11 @@ for target_file in files:
     with open(output_folder_path / f'{target_file.stem}.html', 'w', encoding='utf-8') as text_file:
         text_file.write(new_text)
         print('finished building:', target_file.stem + '.html')
+
+
+    # # if using output_folder, copy images over
+    # if output_folder_path != '.':
+    #     for img_name in inline_images:
+    #         print('--------- copy over image:', img_name)
+    #         # copy file to folder
+    #         shutil.copy(path/img_name, output_folder_path/img_name)
