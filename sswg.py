@@ -157,7 +157,7 @@ with (output_folder_path/'sswg.css').open('w', encoding='utf-8') as css_file:
         span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
         img {max-width: 100%; vertical-align: top;}
         code_block {display: block;
-  width: 100%; background-color: whitesmoke; padding: 10px; margin: 0; position: relative; font-family: monospace; font-size: 1em; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+  width: 100%; background-color: whitesmoke; padding: 10px; margin: 1.5em 0px 1.5em 0px; position: relative; font-family: monospace; font-size: 1em; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
         .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none; -webkit-user-select:none;}
         /* Hide scrollbar for Chrome, Safari and Opera */
         code_block::-webkit-scrollbar {
@@ -308,7 +308,7 @@ for target_file in files:
 
         elif l.startswith('```'):
             if not is_in_code_block:
-                new_text += f'<code_block id="code_block_{code_block_id}" style="margin:auto;">'
+                new_text += f'<code_block id="code_block_{code_block_id}">'
                 new_text += f'<button class="copy_code_button" onclick="copy_to_clipboard(code_block_{code_block_id})">copy</button>'
                 code_block_id += 1
             else:
