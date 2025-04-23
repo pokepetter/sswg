@@ -100,5 +100,8 @@ ENV/
 # mypy
 .mypy_cache/
 
+# VS Code settings
+.vscode
+
 .pypirc
 uv.lock
