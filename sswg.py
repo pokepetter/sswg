@@ -154,7 +154,7 @@ with (output_folder_path/'sswg.css').open('w', encoding='utf-8') as css_file:
         a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
         a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
         mark {background: #ccff99;}
-        span {background-color: rgba(0, 0, 0, 0.55); padding: .1em; line-height: 1.35em;}
+        span {background-color: whitesmoke; padding: .1em; line-height: 1.35em;}
         img {max-width: 100%; vertical-align: top;}
         code_block {display: block;
   width: 100%; background-color: whitesmoke; padding: 10px; margin: 1.5em 0px 1.5em 0px; position: relative; font-family: monospace; font-size: 1em; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}

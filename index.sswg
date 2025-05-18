@@ -13,9 +13,26 @@ Use the tags below to style it.
 pip install https://github.com/pokepetter/sswg/archive/refs/heads/master.zip
 ```
 
-## How to Run
-cd into the folder where your text files are and run:
 
+## 1) Create an .sswg file
+```
+#title My Document
+### Main Title
+
+## Add Text
+Text content is written normally like this.
+
+## Image
+You can even add an image
+#image example_website.jpg
+
+## Buttons
+Or make a button like this:
+[Button, other_file.sswg]
+```
+
+## 2) Run sswg in the folder to convert all .sswg files to .html
+`cd` into the folder where your .sswg files are and run:
 ```
 python -m sswg
 ```
@@ -23,14 +40,11 @@ python -m sswg
 
 ## Tags
 ```
- - # size 1.25
- - # width 900
- - # left, right, center
- - # normal, bold, bolder, lighter
- - # image imagename
+ - #title
+ - #width 900
+ - #left / #right / #center
+ - #image imagename
 
- - #code (start code block)
- - #text (end code block)
  - #insert some_file.txt
  - ## (create header with size 2)
  - ### (create header with size 3)
@@ -61,12 +75,13 @@ Lorem Ipsum sit dolor et amet.
 
 #image example_website.jpg
 
-## Made with sswg
-https://www.ursinaengine.org/
-https://pokepetter.github.io/sswg/
-https://pokepetter.github.io/taptapir/website/sunsnake.html
+## Check out my Other Projects
+[Ursina, https://www.ursinaengine.org/]
+
+[Taptapir, https://pokepetter.github.io/taptapir/docs/index.html]
 
 
  (\_/)
  (>.<)
 (")_(")
+Made with sswg

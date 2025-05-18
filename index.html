@@ -3,7 +3,7 @@
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-    <title>index</title>
+    <title> My Document</title>
     <link rel="stylesheet" href="sswg.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -25,36 +25,49 @@ Installation
 </h2>1) Install Python<br>
 <br>
 2) Install sswg:<br>
-<code_block id="code_block_0" style="margin:auto;">pip install https://github.com/pokepetter/sswg/archive/refs/heads/master.zip
+<code_block id="code_block_0"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_0)">copy</button>pip install https://github.com/pokepetter/sswg/archive/refs/heads/master.zip
 </code_block>
 <br>
-<h2 id="How to Run">
-How to Run
-</h2>cd into the folder where your text files are and run:<br>
 <br>
-<code_block id="code_block_1" style="margin:auto;">python -m sswg
+<h2 id="1) Create an .sswg file">
+1) Create an .sswg file
+</h2><code_block id="code_block_1"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_1)">copy</button><gray>#<gray>#<gray># Main Title</gray>
+
+<gray>#<gray># Add Text</gray>
+Text content is written normally like this.
+
+<gray>#<gray># Image</gray>
+You can even add an image
+<gray>#image example_website.jpg</gray>
+
+<gray>#<gray># Buttons</gray>
+Or make a button like this:
+[Button, other_file.sswg]
+</code_block>
+<br>
+<h2 id="2) Run sswg in the folder to convert all .sswg files to .html">
+2) Run sswg in the folder to convert all .sswg files to .html
+</h2><span>cd</span> into the folder where your .sswg files are and run:<br>
+<code_block id="code_block_2"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_2)">copy</button>python -m sswg
 </code_block>
 <br>
 <br>
 <h2 id="Tags">
 Tags
-</h2><code_block id="code_block_2" style="margin:auto;"> - # size 1.25
- - # width 900
- - # left, right, center
- - # normal, bold, bolder, lighter
- - # image imagename
+</h2><code_block id="code_block_3"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_3)">copy</button>- <gray>#title</gray>
+- <gray>#width <yellow>9</yellow><yellow>0</yellow><yellow>0</yellow></gray>
+- <gray>#left / <gray>#right / <gray>#center</gray>
+- <gray>#image imagename</gray>
 
- - #code (start code block)
- - #text (end code block)
- - #insert some_file.txt
- - ## (create header with size 2)
- - ### (create header with size 3)
- - #### (create header with size 6)
- - [Button Name, https://pokepetter.github.io/sswg/]
- - [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
- - [Button Name, header name]
- - #insert other_file.txt
- - #index other_file.text (creates links to all the headers(##) in the file)
+- <gray>#insert some_file.txt</gray>
+- <gray>#<gray># (create header with size <yellow>2</yellow>)</gray>
+- <gray>#<gray>#<gray># (create header with size <yellow>3</yellow>)</gray>
+- <gray>#<gray>#<gray>#<gray># (create header with size <yellow>6</yellow>)</gray>
+- [Button Name, https://pokepetter.github.io/sswg/]
+- [Button Name, https://pokepetter.github.io/sswg/, image_name.jpg] (big button)
+- [Button Name, header name]
+- <gray>#insert other_file.txt</gray>
+- <gray>#index other_file.text (creates links to all the headers(<gray>#<gray>#) in the file)</gray>
 </code_block>
 <br>
 <br>
@@ -68,26 +81,24 @@ the top of the document<br>
 <br>
 <h2 id="Example Website">
 Example Website
-</h2><code_block id="code_block_3" style="margin:auto;">### ursina engine ʕ •ᴥ•ʔゝ□
+</h2><code_block id="code_block_4"><button class="copy_code_button" onclick="copy_to_clipboard(code_block_4)">copy</button><gray>#<gray>#<gray># ursina engine ʕ •ᴥ•ʔゝ□</gray>
 `pip install ursina`
 
-## Powered by Python
+<gray>#<gray># Powered by Python</gray>
 Lorem Ipsum sit dolor et amet.
 </code_block>
 <br>
 <img src="example_website.jpg"></img> <br>
 <br>
-<h2 id="Made with sswg">
-Made with sswg
-</h2><a href="https://www.ursinaengine.org/">https://www.ursinaengine.org/</a><br>
-<a href="https://pokepetter.github.io/sswg/">https://pokepetter.github.io/sswg/</a><br>
-<a href="https://pokepetter.github.io/taptapir/website/sunsnake.html">https://pokepetter.github.io/taptapir/website/sunsnake.html</a><br>
-<br>
+<h2 id="Check out my Other Projects">
+Check out my Other Projects
+</h2><a href=" https://www.ursinaengine.org/" class="button">Ursina</a><br>
+<a href=" https://pokepetter.github.io/taptapir/docs/index.html" class="button">Taptapir</a><br>
 <br>
  (\_/)<br>
  (>.<)<br>
 (")_(")<br>
-<br>
+Made with sswg<br>
 <script>
 function copy_to_clipboard(containerid) {
     var range = document.createRange()
@@ -98,6 +109,7 @@ function copy_to_clipboard(containerid) {
     window.getSelection().removeAllRanges()
 }
 </script>
-
+<br>
+<br>
 </body>
 </html>
