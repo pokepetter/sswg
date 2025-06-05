@@ -82,107 +82,7 @@ def colorize_code(line):
     return line
 
 
-# default values
-path = Path('.')
-file_types = '.sswg'
-ignore = '_*'
-language_tag = 'en'
-output_folder = '.'
-
-if '--help' in sys.argv:
-    print(f'sswg.py --file_types={file_types} --ignore={ignore} --output_folder={output_folder} --language={language_tag}')
-    # print(dedent('''\
-    #     example settings:
-    #         --file_types=.sswg,.txt (make it accept both .sswg and .txt files)
-    #         --ignore=_* (ignore files starting with "_")
-    #         --language_tag=es (changes html lang tag to "es")'''
-    #     ))
-
-for arg in sys.argv:
-    if arg.startswith('--ignore='):
-        ignore = arg.split('=')[1]
-
-    if arg.startswith('--language_tag='):
-        language_tag = arg.split('=')[1]
-
-    if arg.startswith('--output_folder='):
-        output_folder = arg.split('=')[1].strip('"').strip('\'')
-
-# find files to parse
-files = []
-if ',' in file_types:
-    file_types = file_types.split(',')
-else:
-    file_types = (file_types, )
-# print('file_types:', file_types)
-
-for suffix in file_types:
-    files.extend(list(path.glob('*' + suffix)))
-
-files_to_ignore = []
-for ignore_pattern in ignore.split(','):
-    files_to_ignore.extend(list(path.glob(ignore_pattern)))
-
-files = [f for f in files if f.name not in files_to_ignore]
-
-
-if not files:
-    print('sswg: No source file found with extentions:', file_types)
-    sys.exit()
-
-output_folder_path = Path(output_folder)
-if not output_folder_path.exists():
-    output_folder_path.mkdir()
-
-# create css file
-with (output_folder_path/'sswg.css').open('w', encoding='utf-8') as css_file:
-    css_file.write(dedent('''
-        html {max-width: 100%; margin: auto; color: #333333;}
-        body {font-size: 1em; line-height: 1.5; margin: auto; max-width: 100%;}
-        h1 {font-size: 4em; line-height: 1;}
-        h2 {font-size: 2em; font-weight: 600; line-height: 1;}
-        h3 {font-size:1.5em;}
-
-        a {transition: color .2s; color: #19405c; white-space: nowrap;}
-        a:link, a:visited {color: #19405c;}
-        a:hover {color: #7FDBFF;}
-        a:active {transition: color .3s; color: #007BE6;}
-        .link {text-decoration: none;}
-
-        a.button {padding: 15px 32px; font-size:.85em; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
-        a.button:hover {background-color: #777}
-        a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
-        a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
-        mark {background: #ccff99;}
-        span {background-color: whitesmoke; padding: .1em; line-height: 1.35em;}
-        img {max-width: 100%; vertical-align: top;}
-        code_block {display: block;
-  width: 100%; background-color: whitesmoke; padding: 10px; margin: 1.5em 0px 1.5em 0px; position: relative; font-family: monospace; font-size: 1em; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
-        .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none; -webkit-user-select:none;}
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        code_block::-webkit-scrollbar {
-        }
-        .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
-        @media screen and (max-width: 1800px) {.sidebar {display:none;}}
-        @media (max-width: 725px) {
-            .button {display: block;}
-        }
-
-        purple {color: hsl(289.0, 50%, 50%);}
-        gray {color: gray;}
-        olive {color: olive;}
-        yellow {color: darkgoldenrod;}
-        green {color: seagreen;}
-        blue {color: hsl(210, 50%, 50%);}
-        ''')
-    )
-
-# convert files to html
-for target_file in files:
-    # print(txt.stem)
-    with open(target_file, 'r', encoding='utf-8') as t:
-        text = t.read()
-
+def sswg_to_html(text:str):
     if '#insert ' in text:
         new_lines = []
         lines = text.split('\n')
@@ -409,16 +309,123 @@ for target_file in files:
     new_text += '<br>\n<br>'    # add some space at the bottom the content is never flush with the bottom of the screen.
     new_text += '\n</body>\n</html>'
 
-    with open(output_folder_path / f'{target_file.stem}.html', 'w', encoding='utf-8') as text_file:
-        text_file.write(new_text)
-        print('finished building:', target_file.stem + '.html')
-        # if __name__ == '__main__':
-        #     print(new_text)
+    return new_text
 
 
-    # # if using output_folder, copy images over
-    # if output_folder_path != '.':
-    #     for img_name in inline_images:
-    #         print('--------- copy over image:', img_name)
-    #         # copy file to folder
-    #         shutil.copy(path/img_name, output_folder_path/img_name)
+if __name__ == '__main__':
+    # default values
+    path = Path('.')
+    file_types = '.sswg'
+    ignore = '_*'
+    language_tag = 'en'
+    output_folder = '.'
+
+    if '--help' in sys.argv:
+        print(f'sswg.py --file_types={file_types} --ignore={ignore} --output_folder={output_folder} --language={language_tag}')
+        # print(dedent('''\
+        #     example settings:
+        #         --file_types=.sswg,.txt (make it accept both .sswg and .txt files)
+        #         --ignore=_* (ignore files starting with "_")
+        #         --language_tag=es (changes html lang tag to "es")'''
+        #     ))
+
+    for arg in sys.argv:
+        if arg.startswith('--ignore='):
+            ignore = arg.split('=')[1]
+
+        if arg.startswith('--language_tag='):
+            language_tag = arg.split('=')[1]
+
+        if arg.startswith('--output_folder='):
+            output_folder = arg.split('=')[1].strip('"').strip('\'')
+
+    # find files to parse
+    files = []
+    if ',' in file_types:
+        file_types = file_types.split(',')
+    else:
+        file_types = (file_types, )
+    # print('file_types:', file_types)
+
+    for suffix in file_types:
+        files.extend(list(path.glob('*' + suffix)))
+
+    files_to_ignore = []
+    for ignore_pattern in ignore.split(','):
+        files_to_ignore.extend(list(path.glob(ignore_pattern)))
+
+    files = [f for f in files if f.name not in files_to_ignore]
+
+
+    if not files:
+        print('sswg: No source file found with extentions:', file_types)
+        sys.exit()
+
+    output_folder_path = Path(output_folder)
+    if not output_folder_path.exists():
+        output_folder_path.mkdir()
+
+    # create css file
+    with (output_folder_path/'sswg.css').open('w', encoding='utf-8') as css_file:
+        css_file.write(dedent('''
+            html {max-width: 100%; margin: auto; color: #333333;}
+            body {font-size: 1em; line-height: 1.5; margin: auto; max-width: 100%;}
+            h1 {font-size: 4em; line-height: 1;}
+            h2 {font-size: 2em; font-weight: 600; line-height: 1;}
+            h3 {font-size:1.5em;}
+
+            a {transition: color .2s; color: #19405c; white-space: nowrap;}
+            a:link, a:visited {color: #19405c;}
+            a:hover {color: #7FDBFF;}
+            a:active {transition: color .3s; color: #007BE6;}
+            .link {text-decoration: none;}
+
+            a.button {padding: 15px 32px; font-size:.85em; background-color: #555; border-radius: 2em; border-width: 0px; text-decoration: none; color: white; font-size: 25.0px; line-height: 2.5em;}
+            a.button:hover {background-color: #777}
+            a.button_big {padding: 0.5em; background-image: linear-gradient(to top, #427b0e, #9ba97d); background-color: lightgray; background-blend-mode: multiply; border-radius: .75em; border-width: 0px; text-decoration: none; min-width: 150px; max-width: 150px; min-height: 150px; max-height: 150px; display: inline-block; vertical-align: top; margin: 4px 4px 10px 4px; color: white; font-size: 25.0px; background-size: auto 100%; background-position-x: center;}
+            a.button_big:hover {background-color: white; color: #e6d23f; text-decoration: underline;}
+            mark {background: #ccff99;}
+            span {background-color: whitesmoke; padding: .1em; line-height: 1.35em;}
+            img {max-width: 100%; vertical-align: top;}
+            code_block {display: block;
+    width: 100%; background-color: whitesmoke; padding: 10px; margin: 1.5em 0px 1.5em 0px; position: relative; font-family: monospace; font-size: 1em; font-weight: normal; white-space: pre; overflow: auto; border-radius:4px; scrollbar-color:red;}
+            .copy_code_button {position:absolute; right:10px; border:none; border-radius:5px; font-family:inherit; color:gray; user-select:none; -webkit-user-select:none;}
+            /* Hide scrollbar for Chrome, Safari and Opera */
+            code_block::-webkit-scrollbar {
+            }
+            .sidebar {position:fixed; z-index:1; left:1em; top:1em;}
+            @media screen and (max-width: 1800px) {.sidebar {display:none;}}
+            @media (max-width: 725px) {
+                .button {display: block;}
+            }
+
+            purple {color: hsl(289.0, 50%, 50%);}
+            gray {color: gray;}
+            olive {color: olive;}
+            yellow {color: darkgoldenrod;}
+            green {color: seagreen;}
+            blue {color: hsl(210, 50%, 50%);}
+            ''')
+        )
+
+    # convert files to html
+    for target_file in files:
+        # print(txt.stem)
+        with open(target_file, 'r', encoding='utf-8') as t:
+            text = t.read()
+
+        html_content = sswg_to_html(text)
+
+        with open(output_folder_path / f'{target_file.stem}.html', 'w', encoding='utf-8') as text_file:
+            text_file.write(html_content)
+            print('finished building:', target_file.stem + '.html')
+            # if __name__ == '__main__':
+            #     print(new_text)
+
+
+        # # if using output_folder, copy images over
+        # if output_folder_path != '.':
+        #     for img_name in inline_images:
+        #         print('--------- copy over image:', img_name)
+        #         # copy file to folder
+        #         shutil.copy(path/img_name, output_folder_path/img_name)
